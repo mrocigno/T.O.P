@@ -28,6 +28,7 @@ public class Splash extends AppCompatActivity {
                 public void onEnd() {
                     //Chama a proxima activity
                     startActivity(new Intent(Splash.this, Login.class));
+                    finish();
                 }
             });
         }
