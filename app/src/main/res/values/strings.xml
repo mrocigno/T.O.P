@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">T.O.P</string>
+    <string name="esqueci_a_senha">Esqueci a senha</string>
+    <string name="termos_de_uso">Termos de uso</string>
+    <string name="logar">Logar</string>
+    <string name="senha">Senha</string>
+    <string name="usu_rio">Usuário</string>
 </resources>
