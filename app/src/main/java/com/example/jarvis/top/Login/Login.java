@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
 
 
             }else{
-                AlertTop.showlert(Login.this, "Houve algum problema na hora de logar, verifique os erros e tente novmente", R.drawable.ic_warning_theme_24dp, 3000);
+                AlertTop.showlert(Login.this, "Houve algum problema na hora de logar, verifique os erros e tente novamente", R.drawable.ic_warning_theme_24dp, 3000);
             }
         }
     };
