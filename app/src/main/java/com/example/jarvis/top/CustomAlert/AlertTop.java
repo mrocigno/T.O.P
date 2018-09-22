@@ -13,15 +13,14 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
 public class AlertTop {
-    public static void showlert(final Activity activity, String msg, int img, final int duration){
+    public static void CustomTopSimpleAlert(final Activity activity, String msg, int img, final int duration){
 
         ViewHolder holder = new ViewHolder(R.layout.base_alert);
-
-//        customHolder.setValuesAlert(new ValuesAlert(msg, img, duration), activity);
         final DialogPlus alert = DialogPlus.newDialog(activity)
                 .setContentHolder(holder)
                 .setGravity(Gravity.TOP)
                 .create();
+
         ((TextView)holder.getInflatedView().findViewById(R.id.alert_msg)).setText(msg);
         ((ImageView)holder.getInflatedView().findViewById(R.id.alert_img)).setImageDrawable(activity.getDrawable(img));
 
@@ -49,4 +48,5 @@ public class AlertTop {
             }
         }.start();
     }
+
 }

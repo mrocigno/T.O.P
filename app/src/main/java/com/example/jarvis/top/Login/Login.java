@@ -2,6 +2,7 @@ package com.example.jarvis.top.Login;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,7 +10,20 @@ import android.widget.TextView;
 
 import com.example.jarvis.top.CustomAlert.AlertTop;
 import com.example.jarvis.top.R;
+import com.example.jarvis.top.Utils.SafeLog;
 import com.example.jarvis.top.Utils.Utils;
+import com.example.jarvis.top.WebService.Connects;
+import com.example.jarvis.top.WebService.Models.LoginModel;
+import com.example.jarvis.top.WebService.Models.Teste;
+import com.example.jarvis.top.WebService.Network;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Login extends AppCompatActivity {
 
@@ -45,13 +59,13 @@ public class Login extends AppCompatActivity {
     View.OnClickListener btnLognAction = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(validateFields()){
+           // if(validateFields()){
                 //Validações feitas
+                executeLogin("","");
 
-
-            }else{
-                AlertTop.showlert(Login.this, "Houve algum problema na hora de logar, verifique another teste os erros teste e tente novamente", R.drawable.ic_warning_theme_24dp, 3000);
-            }
+//            }else{
+//                AlertTop.CustomTopSimpleAlert(Login.this, "Houve algum problema na hora de logar, verifique os erros e tente novamente", R.drawable.ic_warning_theme_24dp, 3000);
+//            }
         }
     };
 
@@ -77,7 +91,49 @@ public class Login extends AppCompatActivity {
     protected void executeLogin(String user, String Password){
         //Aqui vai ter a conexão com o WebService pra validar o login
         //Por enquanto vai ter só teste mesmo
-//        if()
+
+        Retrofit retrofit = Network.teste();
+
+        Connects con = retrofit.create(Connects.class);
+
+        con.loginPOST("rocignom","MadrinhA!!1").enqueue(new Callback<Teste>() {
+            @Override
+            public void onResponse(Call<Teste> call, Response<Teste> response) {
+                SafeLog.Logd(response.body().getMensagem());
+                SafeLog.Logd("TESTEEEEEE");
+            }
+
+            @Override
+            public void onFailure(Call<Teste> call, Throwable t) {
+                SafeLog.Loge(t.getMessage(), t);
+            }
+        });
+
+//        con.login().enqueue(new Callback<Teste>() {
+//            @Override
+//            public void onResponse(Call<Teste> call, Response<Teste> response) {
+//                SafeLog.Logd(response.body().getMensagem());
+//                SafeLog.Logd("TESTEEEEEE");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Teste> call, Throwable t) {
+//                SafeLog.Loge(t.getMessage(), t);
+//            }
+//        });
+
+//        con.teesstee().enqueue(new Callback<ArrayList<LoginModel>>() {
+//            @Override
+//            public void onResponse(Call<ArrayList<LoginModel>> call, Response<ArrayList<LoginModel>> response) {
+//                ArrayList<LoginModel> teste = response.body();
+//                SafeLog.Logd(teste.get(0).getNick() + "");
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArrayList<LoginModel>> call, Throwable t) {
+//
+//            }
+//        });
     }
 
 }
