@@ -1,6 +1,6 @@
-package com.example.jarvis.top.WebService.Models;
+package com.example.jarvis.top.WebService.Models.Login;
 
-public class LoginModel {
+public class ResultLoginModel {
     private int ID;
     private String Nick;
     private String Senha;
@@ -8,7 +8,7 @@ public class LoginModel {
     private String Nome_Completo;
     private int Tipo_User;
 
-    public LoginModel(int ID, String nick, String senha, String email, String nome_Completo, int tipo_User) {
+    public ResultLoginModel(int ID, String nick, String senha, String email, String nome_Completo, int tipo_User) {
         this.ID = ID;
         Nick = nick;
         Senha = senha;

@@ -1,5 +1,7 @@
 package com.example.jarvis.top.Utils;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.widget.EditText;
 
 public class Utils {
@@ -24,5 +26,12 @@ public class Utils {
             return false;
         }
         return true;
+    }
+
+    public static void initActivity(Activity activity, Intent intent, boolean closeOldActivity){
+        activity.startActivity(intent);
+        if(closeOldActivity){
+            activity.finish();
+        }
     }
 }

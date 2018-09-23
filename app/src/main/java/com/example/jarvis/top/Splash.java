@@ -4,16 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.jarvis.top.Login.Login;
-import com.example.jarvis.top.Login.Sessao.CustomLoginVerifier;
-import com.example.jarvis.top.Login.Sessao.Sessao;
+import com.example.jarvis.top.Login.Sessao.LoginBuilder.LoginBuilder;
+import com.example.jarvis.top.Login.Sessao.LoginBuilder.UserModel;
 import com.example.jarvis.top.Login.TermosUso;
+import com.example.jarvis.top.Main.Main;
+import com.example.jarvis.top.Utils.Utils;
 
 public class Splash extends AppCompatActivity {
 
     private Activity activity;
+    private TextView txtApre;
+    private boolean logado = false;
 
     protected interface SplashCallBack{
         void onEnd();
@@ -25,19 +30,32 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         this.activity = Splash.this;
+        txtApre = findViewById(R.id.splash_txtApre);
+        LoginBuilder lb = new LoginBuilder(activity);
+        lb.isLoged(new LoginBuilder.isLogedCallback() {
+            @Override
+            public void onIsLoged(UserModel userModel) {
+                txtApre.setVisibility(View.VISIBLE);
+                txtApre.setText("Olá, " + userModel.getUser_name());
+                logado = true;
+            }
 
-//        Toast.makeText(activity, Sessao.getLogin(), Toast.LENGTH_LONG).show();
+            @Override
+            public void onIsNotLoged() {
+                logado = false;
+            }
+        });
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if(intent.hasExtra("action")){
             //Executa algo, provavelmente de notificações
             switch(intent.getStringExtra("action")){
                 case "logar":{
+//                    txtApre.setVisibility(View.VISIBLE);
                     waitSplash(3000, new SplashCallBack() {
                         @Override
                         public void onEnd() {
-                            startActivity(new Intent(Splash.this, TermosUso.class));
-                            finish();
+                            Utils.initActivity(activity, new Intent(Splash.this, Main.class), true);
                         }
                     });
                     break;
@@ -49,8 +67,13 @@ public class Splash extends AppCompatActivity {
                 @Override
                 public void onEnd() {
                     //Chama a proxima activity
-                    CustomLoginVerifier loginVerifier = new CustomLoginVerifier(activity);
-                    loginVerifier.getLogin(TermosUso.class, Login.class);
+                    Intent i;
+                    if(logado){
+                        i = new Intent(activity, Main.class);
+                    }else{
+                        i = new Intent(activity, Login.class);
+                    }
+                    Utils.initActivity(activity, i, true);
                 }
             });
         }

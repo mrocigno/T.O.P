@@ -1,13 +1,11 @@
-package com.example.jarvis.top.WebService.Models;
+package com.example.jarvis.top.WebService.Models.Login;
 
-import java.util.ArrayList;
-
-public class Teste {
+public class LoginModel {
     private int status;
     private String mensagem;
-    private LoginModel resultado;
+    private ResultLoginModel resultado;
 
-    public Teste(int status, String mensagem, LoginModel resultado) {
+    public LoginModel(int status, String mensagem, ResultLoginModel resultado) {
         this.status = status;
         this.mensagem = mensagem;
         this.resultado = resultado;
@@ -29,11 +27,12 @@ public class Teste {
         this.mensagem = mensagem;
     }
 
-    public LoginModel getResultado() {
+    public ResultLoginModel getResultado() {
         return resultado;
     }
 
-    public void setResultado(LoginModel resultado) {
-        this.resultado = resultado;
-    }
+    public void setResultado(ResultLoginModel resultado) {
+            this.resultado = resultado;
+        }
+
 }

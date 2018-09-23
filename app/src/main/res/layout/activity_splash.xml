@@ -5,13 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Splash"
+    android:padding="50dp"
     android:gravity="center">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
-        tools:layout_editor_absoluteX="167dp"
-        tools:layout_editor_absoluteY="258dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/splash_txtApre"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Olá, Fulano da Silva"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

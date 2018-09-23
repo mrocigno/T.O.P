@@ -19,7 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login.Login" />
-        <activity android:name=".Login.TermosUso"></activity>
+        <activity android:name=".Login.TermosUso" />
+        <activity
+            android:name=".Main.Main"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
