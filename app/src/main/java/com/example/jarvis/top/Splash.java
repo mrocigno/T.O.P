@@ -1,13 +1,19 @@
 package com.example.jarvis.top;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.jarvis.top.Login.Login;
+import com.example.jarvis.top.Login.Sessao.CustomLoginVerifier;
+import com.example.jarvis.top.Login.Sessao.Sessao;
+import com.example.jarvis.top.Login.TermosUso;
 
 public class Splash extends AppCompatActivity {
+
+    private Activity activity;
 
     protected interface SplashCallBack{
         void onEnd();
@@ -18,17 +24,33 @@ public class Splash extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        this.activity = Splash.this;
+
+//        Toast.makeText(activity, Sessao.getLogin(), Toast.LENGTH_LONG).show();
+
         Intent intent = getIntent();
-        if(intent.hasExtra("actions")){
+        if(intent.hasExtra("action")){
             //Executa algo, provavelmente de notificações
-            Toast.makeText(Splash.this, "Todos somos tops", Toast.LENGTH_LONG).show();
+            switch(intent.getStringExtra("action")){
+                case "logar":{
+                    waitSplash(3000, new SplashCallBack() {
+                        @Override
+                        public void onEnd() {
+                            startActivity(new Intent(Splash.this, TermosUso.class));
+                            finish();
+                        }
+                    });
+                    break;
+                }
+            }
+
         }else{
             waitSplash(3000, new SplashCallBack() {
                 @Override
                 public void onEnd() {
                     //Chama a proxima activity
-                    startActivity(new Intent(Splash.this, Login.class));
-                    finish();
+                    CustomLoginVerifier loginVerifier = new CustomLoginVerifier(activity);
+                    loginVerifier.getLogin(TermosUso.class, Login.class);
                 }
             });
         }

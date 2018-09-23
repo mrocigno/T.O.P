@@ -3,6 +3,7 @@ package com.example.jarvis.top.CustomAlert;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -13,7 +14,7 @@ import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
 public class AlertTop {
-    public static void CustomTopSimpleAlert(final Activity activity, String msg, int img, final int duration){
+    public static void CustomTopSimpleAlert(@NonNull final Activity activity, @NonNull String msg, int img, @NonNull final int duration){
 
         ViewHolder holder = new ViewHolder(R.layout.base_alert);
         final DialogPlus alert = DialogPlus.newDialog(activity)
