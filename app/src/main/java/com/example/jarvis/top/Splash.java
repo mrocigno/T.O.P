@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.LoginBuilder.LoginBuilder;
 import com.example.jarvis.top.Login.Sessao.LoginBuilder.UserModel;
+import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Login.TermosUso;
 import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Utils.Utils;
@@ -35,6 +36,10 @@ public class Splash extends AppCompatActivity {
         lb.isLoged(new LoginBuilder.isLogedCallback() {
             @Override
             public void onIsLoged(UserModel userModel) {
+                Sessao.setId(userModel.getId());
+                Sessao.setNick(userModel.getUser());
+                Sessao.setNome_completo(userModel.getUser_name());
+
                 txtApre.setVisibility(View.VISIBLE);
                 txtApre.setText("Olá, " + userModel.getUser_name());
                 logado = true;

@@ -15,4 +15,5 @@
     <string name="action_filtrar">Filtrar</string>
     <string name="action_configuracoes">Configurações</string>
     <string name="action_sair">Sair</string>
+    <string name="chamados">Chamados</string>
 </resources>

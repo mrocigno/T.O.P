@@ -3,7 +3,9 @@ package com.example.jarvis.top.Login.Sessao;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.example.jarvis.top.CustomAlert.AlertTop;
 import com.example.jarvis.top.Login.Sessao.LoginBuilder.LoginBuilder;
+import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.Utils;
 
 public class Sessao {
@@ -36,10 +38,20 @@ public class Sessao {
     }
 
     public static void deslogar(final Activity activity, final Class nextActivity){
-        new LoginBuilder(activity).destroy(new LoginBuilder.DestroyLoginCallback() {
+        AlertTop.CustomYesNoTopAlert(activity, "Atenção", "Você tem certeza em sair da conta?", R.drawable.ic_warning_theme_24dp, new AlertTop.YesNoCallBack() {
             @Override
-            public void CallBack() {
-                Utils.initActivity(activity, new Intent(activity, nextActivity), true);
+            public void onClickYes() {
+                new LoginBuilder(activity).destroy(new LoginBuilder.DestroyLoginCallback() {
+                    @Override
+                    public void CallBack() {
+                        Utils.initActivity(activity, new Intent(activity, nextActivity), true);
+                    }
+                });
+            }
+
+            @Override
+            public void onClickNo() {
+                //No action
             }
         });
     }

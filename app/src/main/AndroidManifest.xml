@@ -22,8 +22,8 @@
         <activity android:name=".Login.TermosUso" />
         <activity
             android:name=".Main.Main"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme"></activity>
+            android:label="@string/chamados"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

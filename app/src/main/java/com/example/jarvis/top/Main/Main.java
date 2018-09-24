@@ -19,11 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.LoginBuilder.LoginBuilder;
 import com.example.jarvis.top.Login.Sessao.Sessao;
@@ -76,6 +79,29 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             @Override
             public void onClick(View v) {
                 refreshChamados();
+            }
+        });
+        lstCds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                CustomBottomSheet bottomSheet = new CustomBottomSheet(activity);
+                bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
+                    @Override
+                    public void onItemSelected() {
+                        Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
+                    }
+                }).add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
+                    @Override
+                    public void onItemSelected() {
+                        Toast.makeText(activity, "Adicionar comentario action", Toast.LENGTH_LONG).show();
+                    }
+                }).add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
+                    @Override
+                    public void onItemSelected() {
+                        Toast.makeText(activity, "Apagar chamado action", Toast.LENGTH_LONG).show();
+                    }
+                }).show();
+                return false;
             }
         });
     }
@@ -233,17 +259,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_itemCos) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_itemHco) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_itemOes) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_itemCta) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_itemSir) {
             Sessao.deslogar(activity, Login.class);
         }
 

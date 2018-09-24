@@ -127,10 +127,6 @@ public class Login extends AppCompatActivity {
                     lb.create(response.body().getResultado().getID(), response.body().getResultado().getNick(), response.body().getResultado().getNome_Completo(), response.body().getResultado().getSenha(), new LoginBuilder.CreateLoginCallback() {
                         @Override
                         public void CallBack(UserModel userModel) {
-                            Sessao.setId(userModel.getId());
-                            Sessao.setNick(userModel.getUser());
-                            Sessao.setNome_completo(userModel.getUser_name());
-
                             Intent i = new Intent(activity, Splash.class);
                             i.putExtra("action", "logar");
                             Utils.initActivity(activity, i, true);

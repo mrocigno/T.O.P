@@ -4,7 +4,9 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +49,39 @@ public class AlertTop {
                 }
             }
         }.start();
+    }
+
+    public interface YesNoCallBack{
+        void onClickYes();
+        void onClickNo();
+    }
+
+    public static void CustomYesNoTopAlert(Activity activity, String title, String msg, int img, final YesNoCallBack yesNoCallBack){
+        ViewHolder holder = new ViewHolder(R.layout.alert_yes_no_option);
+        final DialogPlus alert = DialogPlus.newDialog(activity)
+                .setContentHolder(holder)
+                .setGravity(Gravity.TOP)
+                .create();
+
+        ((TextView) holder.getInflatedView().findViewById(R.id.alertYesNo_txtTle)).setText(title);
+        ((TextView) holder.getInflatedView().findViewById(R.id.alertYesNo_txtCdo)).setText(msg);
+        ((ImageView)holder.getInflatedView().findViewById(R.id.alertYesNo_imgIew)).setImageDrawable(activity.getDrawable(img));
+        (holder.getInflatedView().findViewById(R.id.alertYesNo_btnYes)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                yesNoCallBack.onClickYes();
+            }
+        });
+        (holder.getInflatedView().findViewById(R.id.alertYesNo_btnNo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+                yesNoCallBack.onClickNo();
+            }
+        });
+
+        alert.show();
     }
 
 }
