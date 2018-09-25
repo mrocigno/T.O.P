@@ -24,7 +24,7 @@ public class Splash extends AppCompatActivity {
     protected interface SplashCallBack{
         void onEnd();
     }
-//teste
+//testee
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
