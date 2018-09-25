@@ -23,7 +23,9 @@
         <activity
             android:name=".Main.Main"
             android:label="@string/chamados"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Main.Chamado.Chamado" />
+        <activity android:name=".Main.Menu.Configuracoes"></activity>
     </application>
 
 </manifest>

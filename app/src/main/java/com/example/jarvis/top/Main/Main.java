@@ -1,12 +1,8 @@
 package com.example.jarvis.top.Main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,10 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,20 +21,17 @@ import android.widget.Toast;
 
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.Login.Login;
-import com.example.jarvis.top.Login.Sessao.LoginBuilder.LoginBuilder;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterChamados;
-import com.example.jarvis.top.Main.Adapters.Chamados.ModelChamados;
+import com.example.jarvis.top.Main.Menu.Configuracoes;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
+import com.example.jarvis.top.Utils.Utils;
 import com.example.jarvis.top.WebService.Connects;
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
-import com.example.jarvis.top.WebService.Models.Login.LoginModel;
 import com.example.jarvis.top.WebService.Network;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -243,7 +233,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             callFilter();
             return true;
         }else if (id == R.id.action_configuracoes) {
-
+            Utils.initActivity(activity, new Intent(activity, Configuracoes.class), false);
             return true;
         }else if (id == R.id.action_sair) {
             Sessao.deslogar(activity, Login.class);

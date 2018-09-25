@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="13sp"
+                android:textAlignment="center"
+                android:text="Lista"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="13sp"
+                android:textAlignment="center"
+                android:text="Lado a lado"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="13sp"
+                android:textAlignment="center"
+                android:text="Lista adaptativa"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"/>
+        </TableRow>
+
+        <TableRow>
+            <ImageButton
+                android:id="@+id/alertConfig_ibtLta"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:background="?android:selectableItemBackground"
+                android:tag="LISTA"
+                android:src="@drawable/ic_format_list_bulleted_black_24dp"/>
+
+            <ImageButton
+                android:id="@+id/alertConfig_ibtGid"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:background="?android:selectableItemBackground"
+                android:tag="GRID"
+                android:src="@drawable/ic_grid_on_black_24dp"/>
+
+            <ImageButton
+                android:id="@+id/alertConfig_ibtRle"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:scaleType="fitCenter"
+                android:background="?android:selectableItemBackground"
+                android:tag="RECYCLER"
+                android:src="@drawable/ic_recycle_black_24dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/colorAccent"/>
+
+</LinearLayout>
