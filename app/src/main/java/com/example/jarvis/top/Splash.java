@@ -1,4 +1,4 @@
-package com.example.jarvis.top;
+﻿package com.example.jarvis.top;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +24,7 @@ public class Splash extends AppCompatActivity {
     protected interface SplashCallBack{
         void onEnd();
     }
-
+//teste
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
