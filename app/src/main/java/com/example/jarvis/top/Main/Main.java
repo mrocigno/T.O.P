@@ -3,6 +3,7 @@ package com.example.jarvis.top.Main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -13,17 +14,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jarvis.top.CustomAlert.AlertTop;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.Sessao;
-import com.example.jarvis.top.Main.Adapters.Chamados.AdapterChamados;
+import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
+import com.example.jarvis.top.Main.Adapters.Chamados.AdapterListChamados;
 import com.example.jarvis.top.Main.Menu.Configuracoes;
+import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
 import com.example.jarvis.top.Utils.Utils;
@@ -43,8 +52,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     Activity activity;
     DrawerLayout drawer;
     ListView lstCds;
-    ImageView refresh;
-    TextView txtCds;
+    LinearLayout lnlMin;
+    GridView grdLot;
+    TextView noConection;
+
+    //Padrão será a lista
+    View lista;
+    int layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,49 +72,55 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     protected void initVars(){
         activity = Main.this;
-        lstCds = findViewById(R.id.main_lstCds);
-        refresh = findViewById(R.id.main_imgAtt);
-        txtCds = findViewById(R.id.main_txtCds);
+
+        lnlMin = findViewById(R.id.main_lnlMin);
+
+        grdLot = createGrid();
+        lstCds = createList();
+        noConection = Network.createNoConection(activity);
+
+        //por padrão a lista será "lista"
+        this.lista = lstCds;
+        this.layout = R.layout.adapter_chamados_main;
     }
+
 
     protected void initActions(){
-        refreshChamados();
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshChamados();
-            }
-        });
-        lstCds.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                CustomBottomSheet bottomSheet = new CustomBottomSheet(activity);
-                bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
-                    @Override
-                    public void onItemSelected() {
-                        Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
-                    }
-                }).add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
-                    @Override
-                    public void onItemSelected() {
-                        Toast.makeText(activity, "Adicionar comentario action", Toast.LENGTH_LONG).show();
-                    }
-                }).add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
-                    @Override
-                    public void onItemSelected() {
-                        Toast.makeText(activity, "Apagar chamado action", Toast.LENGTH_LONG).show();
-                    }
-                }).show();
-                return false;
-            }
-        });
+
+//        refresh.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                refreshChamados();
+//            }
+//        });
+//        lstCds = new ListView(activity);
+//        lnlMin.addView(lstCds);
+
     }
 
-
-
-
-
-
+    AdapterView.OnItemLongClickListener listaAction = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            CustomBottomSheet bottomSheet = new CustomBottomSheet(activity);
+            bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
+                @Override
+                public void onItemSelected() {
+                    Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
+                }
+            }).add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
+                @Override
+                public void onItemSelected() {
+                    Toast.makeText(activity, "Adicionar comentario action", Toast.LENGTH_LONG).show();
+                }
+            }).add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
+                @Override
+                public void onItemSelected() {
+                    Toast.makeText(activity, "Apagar chamado action", Toast.LENGTH_LONG).show();
+                }
+            }).show();
+            return false;
+        }
+    };
 
     protected void callFilter(){
         ViewHolder holder = new ViewHolder(R.layout.alert_filter);
@@ -113,33 +133,86 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                refreshChamados();
+                refreshChamados(lista, layout);
             }
         });
 
         alert.show();
     }
 
-    private void refreshChamados(){
-        final LoadingSettings ls = new LoadingSettings(txtCds, TextView.class);
-        ls.txtLoading(activity, 100, 4, "Carregando", true).threadStart();
+    private void refreshChamados(final View view, final int resource){
+        LoadingSettings.showProgressBar(true, findViewById(R.id.header_pb));
+        AbsListView.class.cast(view).setAdapter(null);
 
-        lstCds.setAdapter(null);
-
-        Retrofit retrofit = Network.teste();
+        lnlMin.removeView(noConection);
+        final Retrofit retrofit = Network.teste();
         Connects con = retrofit.create(Connects.class);
         con.getChamados().enqueue(new Callback<ChamadosModel>() {
             @Override
             public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
-                lstCds.setAdapter(new AdapterChamados(activity, response.body().getResultado()));
-                ls.threadClose();
+                AbsListView.class.cast(view).setAdapter(new AdapterGridChamados(activity, resource, response.body().getResultado()));
+                LoadingSettings.showProgressBar(false, findViewById(R.id.header_pb));
             }
 
             @Override
             public void onFailure(Call<ChamadosModel> call, Throwable t) {
-
+                LoadingSettings.showProgressBar(false, findViewById(R.id.header_pb));
+                lnlMin.addView(noConection);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DataBaseConfig dbc = new DataBaseConfig(activity);
+        String[] str = dbc.getData();
+        if(dbc.getData() == null){
+            dbc.setDefault();
+            onResume();
+        }else{
+            switch (str[1]) {
+                case "LISTA": {
+                    addNewView(lstCds);
+                    layout = R.layout.adapter_chamados_main;
+                    refreshChamados(lista, layout);
+                    break;
+                }
+                case "GRID": {
+                    addNewView(grdLot);
+                    layout = R.layout.adapter_chamdos_main_grid;
+                    refreshChamados(lista, layout);
+                    break;
+                }
+            }
+        }
+    }
+
+    private GridView createGrid(){
+        GridView grid = new GridView(activity);
+        grid.setNumColumns(2);
+        grid.setBackground(getDrawable(R.drawable.border_top_left));
+        grid.setPadding(3,3,0,0);
+        grid.setOnItemLongClickListener(listaAction);
+        return grid;
+    }
+
+    private ListView createList(){
+        ListView listView = new ListView(activity);
+        listView.setOnItemLongClickListener(listaAction);
+
+        return listView;
+    }
+
+    /**
+     * Após usar essa função a variavel lista passa a ter o valor de @param view
+     * @param view
+     */
+    private void addNewView(View view){
+        lnlMin.removeView(lista);
+        lista = view;
+        lnlMin.addView(lista);
     }
 
 
@@ -154,34 +227,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
     /***********************************************************************************************
      ****************************CRIADOS PELO SISTEMA***********************************************
      ***********************************************************************************************/
@@ -227,7 +273,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_atualizar) {
-            refreshChamados();
+            refreshChamados(lista, layout);
             return true;
         }else if (id == R.id.action_filtrar) {
             callFilter();

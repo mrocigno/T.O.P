@@ -14,13 +14,13 @@ import com.example.jarvis.top.WebService.Models.Chamados.ResultChamadosModel;
 
 import java.util.ArrayList;
 
-public class AdapterChamados extends ArrayAdapter<ResultChamadosModel> {
+public class AdapterListChamados extends ArrayAdapter<ResultChamadosModel> {
 
     private class ItensHolder{
         TextView adapter_status, adapter_titulo, adapter_conteudo;
     }
 
-    public AdapterChamados(@NonNull Context context, ArrayList<ResultChamadosModel> arrayList) {
+    public AdapterListChamados(@NonNull Context context, ArrayList<ResultChamadosModel> arrayList) {
         super(context, R.layout.adapter_chamados_main, arrayList);
     }
 

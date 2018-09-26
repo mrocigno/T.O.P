@@ -2,39 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_lnlMin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
     tools:context=".Main.Main">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="10dp"-->
+        <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:id="@+id/main_txtCds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="Chamados"/>
+        <!--<TextView-->
+            <!--android:id="@+id/main_txtCds"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="20sp"-->
+            <!--android:text="Chamados"/>-->
 
-        <ImageView
-            android:id="@+id/main_imgAtt"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_refresh_theme_24dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/main_imgAtt"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/ic_refresh_theme_24dp"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <ListView
-        android:id="@+id/main_lstCds"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<GridView-->
+        <!--android:background="@drawable/border_top_left"-->
+        <!--android:paddingTop="1dp"-->
+        <!--android:paddingLeft="1dp"-->
+        <!--android:numColumns="2"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/grid"-->
+        <!--/>-->
 
-    </ListView>
+    <!--<ListView-->
+        <!--android:id="@+id/main_lstCds"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+    <!--</ListView>-->
 
 </LinearLayout>

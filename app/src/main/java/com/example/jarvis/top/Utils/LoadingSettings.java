@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jarvis.top.R;
@@ -83,5 +84,9 @@ public class LoadingSettings {
                 }
             }
         };
+    }
+
+    public static void showProgressBar(boolean visible, View view){
+        view.setVisibility(visible? View.VISIBLE:View.GONE);
     }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     app:popupTheme="@style/AppTheme.PopupOverlay"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -13,6 +12,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:translationZ="1dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -21,4 +21,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/header_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="50dp"
+        android:elevation="5dp"
+        android:visibility="gone" />
+
+</RelativeLayout>
