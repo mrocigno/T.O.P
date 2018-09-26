@@ -34,15 +34,15 @@
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="13sp"
-                android:textAlignment="center"
-                android:text="Lista adaptativa"
-                android:textColor="@color/colorBlack"
-                android:textStyle="bold"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textSize="13sp"-->
+                <!--android:textAlignment="center"-->
+                <!--android:text="Lista adaptativa"-->
+                <!--android:textColor="@color/colorBlack"-->
+                <!--android:textStyle="bold"/>-->
         </TableRow>
 
         <TableRow>
@@ -68,16 +68,16 @@
                 android:tag="GRID"
                 android:src="@drawable/ic_grid_on_black_24dp"/>
 
-            <ImageButton
-                android:id="@+id/alertConfig_ibtRle"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:scaleType="fitCenter"
-                android:background="?android:selectableItemBackground"
-                android:tag="RECYCLER"
-                android:src="@drawable/ic_recycle_black_24dp"/>
+            <!--<ImageButton-->
+                <!--android:id="@+id/alertConfig_ibtRle"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:padding="20dp"-->
+                <!--android:scaleType="fitCenter"-->
+                <!--android:background="?android:selectableItemBackground"-->
+                <!--android:tag="RECYCLER"-->
+                <!--android:src="@drawable/ic_recycle_black_24dp"/>-->
         </TableRow>
 
     </TableLayout>

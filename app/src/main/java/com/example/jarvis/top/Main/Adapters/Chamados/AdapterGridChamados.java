@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jarvis.top.R;
@@ -21,7 +22,8 @@ public class AdapterGridChamados extends BaseAdapter {
     private class ItensHolder{
         TextView adapterGrid_titulo, adapterGrid_conteudo;
 
-        TextView adapter_status, adapter_titulo, adapter_conteudo;
+        TextView adapter_titulo, adapter_conteudo;
+        ImageView adapter_status;
     }
 
     public AdapterGridChamados(Context context, int resource, ArrayList<ResultChamadosModel> itens){

@@ -8,8 +8,23 @@
     <color name="colorPrimaryDark">#ffbe75</color>
     <color name="colorAccent">#f0932b</color>
 
+    <!--<color name="colorPrimary">#2600688e</color>-->
+    <!--<color name="colorPrimaryDark">#8900688e</color>-->
+    <!--<color name="colorAccent">#FF00688E</color>-->
+
+    <!--<color name="colorPrimary">#fffbd0</color>-->
+    <!--<color name="colorPrimaryDark">#fff582</color>-->
+    <!--<color name="colorAccent">#ffea00</color>-->
+
+    <!--<color name="colorPrimary">#f1ffbd</color>-->
+    <!--<color name="colorPrimaryDark">#e4ff81</color>-->
+    <!--<color name="colorAccent">#c8ff00</color>-->
+
     <color name="colorBlack">#000</color>
     <color name="colorBlackTranslucent">#47000000</color>
     <color name="colorLightRed">#ffa6a6</color>
     <color name="colorLightGreen">#83f583</color>
+    <color name="colorClockYellow">#ffae00</color>
+    <color name="colorRemoveRed">#b90000</color>
+    <color name="colorCheckGreen">#018903</color>
 </resources>

@@ -25,7 +25,7 @@ public class Network {
         TextView txt = new TextView(activity);
         txt.setText("SEM CONEXÃO");
         txt.setTypeface(null, Typeface.BOLD);
-        txt.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        txt.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         txt.setGravity(Gravity.CENTER);
         return txt;
     }

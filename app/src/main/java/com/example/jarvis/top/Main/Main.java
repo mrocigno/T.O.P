@@ -105,7 +105,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
                 @Override
                 public void onItemSelected() {
-                    Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
+                    AlertTop.CustomTopSimpleAlert(activity, "teste", R.drawable.ic_warning_theme_24dp, 3000);
                 }
             }).add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
                 @Override

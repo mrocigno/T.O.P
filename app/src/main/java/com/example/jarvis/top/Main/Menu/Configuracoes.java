@@ -150,7 +150,7 @@ public class Configuracoes extends AppCompatActivity {
 
             holder.getInflatedView().findViewById(R.id.alertConfig_ibtLta).setOnClickListener(btnsExibicaoAction);
             holder.getInflatedView().findViewById(R.id.alertConfig_ibtGid).setOnClickListener(btnsExibicaoAction);
-            holder.getInflatedView().findViewById(R.id.alertConfig_ibtRle).setOnClickListener(btnsExibicaoAction);
+//            holder.getInflatedView().findViewById(R.id.alertConfig_ibtRle).setOnClickListener(btnsExibicaoAction);
 
             alert.show();
         }
