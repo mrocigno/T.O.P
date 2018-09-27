@@ -5,12 +5,14 @@ public class ResultChamadosModel {
     private String Status;
     private String Titulo;
     private String Conteudo;
+    private int tem_comentario;
 
-    public ResultChamadosModel(int ID, String status, String titulo, String conteudo) {
+    public ResultChamadosModel(int ID, String status, String titulo, String conteudo, int tem_comentario) {
         this.ID = ID;
         Status = status;
         Titulo = titulo;
         Conteudo = conteudo;
+        this.tem_comentario = tem_comentario;
     }
 
     public int getID() {
@@ -43,5 +45,13 @@ public class ResultChamadosModel {
 
     public void setConteudo(String conteudo) {
         Conteudo = conteudo;
+    }
+
+    public int getTem_comentario() {
+        return tem_comentario;
+    }
+
+    public void setTem_comentario(int tem_comentario) {
+        this.tem_comentario = tem_comentario;
     }
 }

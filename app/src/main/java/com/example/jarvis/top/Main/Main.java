@@ -14,23 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.jarvis.top.CustomAlert.AlertTop;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
-import com.example.jarvis.top.Main.Adapters.Chamados.AdapterListChamados;
 import com.example.jarvis.top.Main.Menu.Configuracoes;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
@@ -38,9 +34,15 @@ import com.example.jarvis.top.Utils.LoadingSettings;
 import com.example.jarvis.top.Utils.Utils;
 import com.example.jarvis.top.WebService.Connects;
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
+import com.example.jarvis.top.WebService.Models.Chamados.ComentariosChamadosModel;
+import com.example.jarvis.top.WebService.Models.Chamados.ResultChamadosModel;
+import com.example.jarvis.top.WebService.Models.Default;
 import com.example.jarvis.top.WebService.Network;
 import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +57,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     LinearLayout lnlMin;
     GridView grdLot;
     TextView noConection;
+
+    ArrayList<ResultChamadosModel> list;
 
     //Padrão será a lista
     View lista;
@@ -102,23 +106,42 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             CustomBottomSheet bottomSheet = new CustomBottomSheet(activity);
+
+            final ResultChamadosModel resultChamadosModel = list.get(position);
+
             bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
                 @Override
                 public void onItemSelected() {
-                    //Toast.makeText(activity, "Mais detalhes action", Toast.LENGTH_LONG).show();
-                    AlertTop.CustomTopSimpleAlert(activity, "teste", R.drawable.ic_warning_theme_24dp, 3000);
+                    Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
                 }
-            }).add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
+            });
+
+            if(resultChamadosModel.getTem_comentario() > 0){
+                bottomSheet.add(R.drawable.ic_chat_bubble_outline_black_24dp, "ler comentario", new CustomBottomSheet.onClickAction() {
+                    @Override
+                    public void onItemSelected() {
+                        //Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
+                        lerComentario(resultChamadosModel.getID());
+                    }
+                });
+            }
+
+            bottomSheet.add(R.drawable.ic_insert_comment_black_24dp, "Adicionar comentario", new CustomBottomSheet.onClickAction() {
                 @Override
                 public void onItemSelected() {
-                    Toast.makeText(activity, "Adicionar comentario action", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
+                    addComentario(resultChamadosModel);
                 }
-            }).add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
+            });
+            bottomSheet.add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
                 @Override
                 public void onItemSelected() {
-                    Toast.makeText(activity, "Apagar chamado action", Toast.LENGTH_LONG).show();
+                    Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
                 }
-            }).show();
+            });
+
+            bottomSheet.show();
+
             return false;
         }
     };
@@ -151,6 +174,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         con.getChamados().enqueue(new Callback<ChamadosModel>() {
             @Override
             public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
+                assert response.body() != null;
+                list = response.body().getResultado();
                 AbsListView.class.cast(view).setAdapter(new AdapterGridChamados(activity, resource, response.body().getResultado()));
                 LoadingSettings.showProgressBar(false, findViewById(R.id.header_pb));
             }
@@ -216,8 +241,107 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         lnlMin.addView(lista);
     }
 
+    public void lerComentario(final int id){
+        ViewHolder holder = new ViewHolder(R.layout.alert_ler_comentario);
+        final DialogPlus alert = DialogPlus.newDialog(activity)
+                .setContentHolder(holder)
+                .setGravity(Gravity.TOP)
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+                        Utils.hideKeyboard(activity, dialog.getHolderView());
+                    }
+                })
+                .create();
 
+        final TextView txt = holder.getInflatedView().findViewById(R.id.alertComentLer_txtVew);
+        final LoadingSettings ls = new LoadingSettings(txt, TextView.class);
+        ls.txtLoading(activity, 100, 6, "Carregando", true).threadStart();
 
+        Connects con = Network.teste().create(Connects.class);
+        con.getComentarioPOST(String.valueOf(id)).enqueue(new Callback<ComentariosChamadosModel>() {
+            @Override
+            public void onResponse(Call<ComentariosChamadosModel> call, Response<ComentariosChamadosModel> response) {
+                ComentariosChamadosModel resultado = response.body();
+                ls.threadClose();
+                if(resultado.getStatus() == 1){
+                    ArrayList<ComentariosChamadosModel.Resultado> comentarios = resultado.getResultado();
+                    if(comentarios != null){
+                        String coments = "";
+                        for (int i = 0; i < comentarios.size(); i++) {
+                            coments += (i==0?"":"\n\n") + "Comentário "+ (i+1) +": \n" + comentarios.get(i).getComentario();
+                        }
+                        txt.setText(coments);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ComentariosChamadosModel> call, Throwable t) {
+                ls.threadClose();
+            }
+        });
+
+        holder.getInflatedView().findViewById(R.id.alertComentLer_btnCir).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    public void addComentario(final ResultChamadosModel model){
+        final ViewHolder holder = new ViewHolder(R.layout.alert_add_comentario);
+        final DialogPlus alert = DialogPlus.newDialog(activity)
+                .setContentHolder(holder)
+                .setGravity(Gravity.TOP)
+                .setOnDismissListener(new OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogPlus dialog) {
+                        //Não sei por que, mas não estava funcionando colocar dialog.getHolderView, então coloquei qualquer coisa mesmo
+                        Utils.hideKeyboard(activity, findViewById(R.id.header_pb));
+                    }
+                })
+                .create();
+
+        final EditText edtCio = holder.getInflatedView().findViewById(R.id.alertComent_edtCio);
+        holder.getInflatedView().findViewById(R.id.alertComent_btnCar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+        holder.getInflatedView().findViewById(R.id.alertComent_btnCir).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                salvar(model, edtCio.getText().toString().trim());
+                alert.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    public void salvar(final ResultChamadosModel model, String comentario){
+        Retrofit retrofit = Network.teste();
+        Connects add = retrofit.create(Connects.class);
+
+        add.addComentarioPOST(String.valueOf(model.getID()), comentario).enqueue(new Callback<Default>() {
+            @Override
+            public void onResponse(Call<Default> call, Response<Default> response) {
+                Toast.makeText(activity, response.body().getMensagem(), Toast.LENGTH_LONG).show();
+                model.setTem_comentario(1);
+            }
+
+            @Override
+            public void onFailure(Call<Default> call, Throwable t) {
+                Toast.makeText(activity, "Parece que n foi", Toast.LENGTH_LONG).show();
+                Log.e("TESTE", t.getMessage());
+            }
+        });
+    }
 
 
 
@@ -296,18 +420,33 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_itemCos) {
-            // Handle the camera action
-        } else if (id == R.id.nav_itemHco) {
+        switch (id){
+            case R.id.nav_itemCos: {
 
-        } else if (id == R.id.nav_itemOes) {
+                break;
+            }
+            case R.id.nav_itemHco:{
 
-        } else if (id == R.id.nav_itemCta) {
+                break;
+            }
+            case R.id.nav_itemOes: {
+                Utils.initActivity(activity, new Intent(activity, Configuracoes.class), false);
+                break;
+            }
+            case R.id.nav_itemCta:{
 
-        } else if (id == R.id.nav_itemSir) {
-            Sessao.deslogar(activity, Login.class);
+                break;
+            }
+            case R.id.nav_itemSir:{
+                Sessao.deslogar(activity, Login.class);
+                break;
+            }
+            default:{
+                drawer.setSelected(false);
+                break;
+            }
         }
-
+        drawer.setSelected(false);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

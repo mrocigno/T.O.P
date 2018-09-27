@@ -1,6 +1,8 @@
 package com.example.jarvis.top.WebService;
 
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
+import com.example.jarvis.top.WebService.Models.Chamados.ComentariosChamadosModel;
+import com.example.jarvis.top.WebService.Models.Default;
 import com.example.jarvis.top.WebService.Models.Login.LoginModel;
 
 import retrofit2.Call;
@@ -13,6 +15,14 @@ public interface Connects {
     @FormUrlEncoded
     @POST("teste.php")
     Call<LoginModel> loginPOST(@Field("user") String first, @Field("pass") String last);
+
+    @FormUrlEncoded
+    @POST("salvarcomentario.php")
+    Call<Default> addComentarioPOST(@Field("id") String first, @Field("comentario") String last);
+
+    @FormUrlEncoded
+    @POST("comentariochamado.php")
+    Call<ComentariosChamadosModel> getComentarioPOST(@Field("id") String first);
 
     @GET("chamados.php")
     Call<ChamadosModel> getChamados();
