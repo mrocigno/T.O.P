@@ -3,7 +3,9 @@ package com.example.jarvis.top.Main.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
+import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
@@ -59,6 +62,8 @@ public class PageList extends Fragment {
     GridView grdLot;
     TextView noConection;
 
+    CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
+
     //Padrão será a lista
     public View lista;
     public int layout;
@@ -78,6 +83,18 @@ public class PageList extends Fragment {
         grdLot = createGrid();
         lstCds = createList();
         noConection = Network.createNoConection(activity);
+
+//        cbsb.init(view.findViewById(R.id.main_behavior)).setPeekHeight(100).setHideable(false).setActions(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View view, int i) {
+//                Log.d("TESTEE", "state: " + i);
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View view, float v) {
+//
+//            }
+//        });
 
         return view;
     }

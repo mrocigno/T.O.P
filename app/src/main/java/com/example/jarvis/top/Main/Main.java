@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
+import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
@@ -67,9 +68,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     Activity activity;
     DrawerLayout drawer;
 
-    TextView noConection;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +84,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
 
     protected void initActions(){
-
+        new CustomBottomSheetBehavior().init(findViewById(R.id.main_behavior)).setHideable(false).setPeekHeight(40);
     }
 
     protected void callFilter(){
