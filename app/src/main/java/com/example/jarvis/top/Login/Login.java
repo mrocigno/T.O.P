@@ -117,14 +117,14 @@ public class Login extends AppCompatActivity {
         Retrofit retrofit = Network.teste();
         Connects con = retrofit.create(Connects.class);
 
-        con.loginPOST(user, password).enqueue(new Callback<LoginModel>() {
+        con.loginPOST(user, password, "").enqueue(new Callback<LoginModel>() {
             @Override
             public void onResponse(@NonNull Call<LoginModel> call, @NonNull Response<LoginModel> response) {
                 LoginModel loginModel = response.body();
                 assert loginModel != null;
                 if(loginModel.getStatus() == 1){
                     LoginBuilder lb = new LoginBuilder(activity);
-                    lb.create(response.body().getResultado().getID(), response.body().getResultado().getNick(), response.body().getResultado().getNome_Completo(), response.body().getResultado().getSenha(), new LoginBuilder.CreateLoginCallback() {
+                    lb.create(response.body().getResultado().getID(), response.body().getResultado().getNick(), response.body().getResultado().getNome_Completo(), response.body().getResultado().getSenha(), response.body().getResultado().getToken(), new LoginBuilder.CreateLoginCallback() {
                         @Override
                         public void CallBack(UserModel userModel) {
                             Intent i = new Intent(activity, Splash.class);

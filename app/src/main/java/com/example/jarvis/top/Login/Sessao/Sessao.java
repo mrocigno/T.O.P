@@ -11,7 +11,16 @@ import com.example.jarvis.top.Utils.Utils;
 public class Sessao {
     private static String nome_completo;
     private static String nick;
-    private static int    id;
+    private static int id;
+    private static String token;
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        Sessao.token = token;
+    }
 
     public static String getNome_completo() {
         return nome_completo;
@@ -37,7 +46,7 @@ public class Sessao {
         Sessao.id = id;
     }
 
-    public static void deslogar(final Activity activity, final Class nextActivity){
+    public static void deslogar(final Activity activity, final Class nextActivity) {
         AlertTop.CustomYesNoTopAlert(activity, "Atenção", "Você tem certeza em sair da conta?", R.drawable.ic_warning_theme_24dp, new AlertTop.YesNoCallBack() {
             @Override
             public void onClickYes() {

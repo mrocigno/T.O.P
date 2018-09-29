@@ -6,15 +6,25 @@ public class ResultLoginModel {
     private String Senha;
     private String Email;
     private String Nome_Completo;
+    private String Token;
     private int Tipo_User;
 
-    public ResultLoginModel(int ID, String nick, String senha, String email, String nome_Completo, int tipo_User) {
+    public ResultLoginModel(int ID, String nick, String senha, String email, String nome_Completo, String token, int tipo_User) {
         this.ID = ID;
         Nick = nick;
         Senha = senha;
         Email = email;
         Nome_Completo = nome_Completo;
+        Token = token;
         Tipo_User = tipo_User;
+    }
+
+    public String getToken() {
+        return Token;
+    }
+
+    public void setToken(String token) {
+        Token = token;
     }
 
     public int getID() {

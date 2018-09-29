@@ -82,27 +82,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     protected void initVars(){
         activity = Main.this;
-
-        //lnlMin = findViewById(R.id.main_lnlMin);
-
-
     }
 
 
     protected void initActions(){
 
-//        refresh.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                refreshChamados();
-//            }
-//        });
-//        lstCds = new ListView(activity);
-//        lnlMin.addView(lstCds);
-
     }
-
-
 
     protected void callFilter(){
         ViewHolder holder = new ViewHolder(R.layout.alert_filter);
@@ -115,18 +100,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
             @Override
             public void onClick(View v) {
                 alert.dismiss();
-                //refreshChamados(lista, layout);
             }
         });
 
         alert.show();
     }
-
-    /**
-     * Após usar essa função a variavel lista passa a ter o valor de @param view
-     * @param //view
-     */
-
 
 
 

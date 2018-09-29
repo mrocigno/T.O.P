@@ -227,10 +227,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="800dp" />
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

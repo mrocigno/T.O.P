@@ -16,6 +16,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
     private static final String USER = "USER";
     private static final String USER_NAME = "USER_NAME";
     private static final String PASSWORD = "PASSWORD";
+    private static final String TOKEN = "TOKEN";
     private static final int VERSAO = 1;
 
     public DataBaseActions(Context context){
@@ -29,7 +30,8 @@ public class DataBaseActions extends SQLiteOpenHelper{
                 + ID_WEB + " integer,"
                 + USER + " text,"
                 + USER_NAME + " text,"
-                + PASSWORD + " text"
+                + PASSWORD + " text,"
+                + TOKEN + " text"
                 +")";
         db.beginTransaction();
         try {
@@ -63,13 +65,14 @@ public class DataBaseActions extends SQLiteOpenHelper{
             initialValues.put(USER, "");
             initialValues.put(USER_NAME, "");
             initialValues.put(PASSWORD, "");
+            initialValues.put(TOKEN, "");
             return db.insert(TABLE, null, initialValues);
         }finally{
             db.close();
         }
     }
 
-    public void setUpdate(int id, String user, String user_name, String password){
+    public void setUpdate(int id, String user, String user_name, String password, String token){
         SQLiteDatabase db = getReadableDatabase();
         try {
             ContentValues initialValues = new ContentValues();
@@ -77,6 +80,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
             initialValues.put(USER, user);
             initialValues.put(USER_NAME, user_name);
             initialValues.put(PASSWORD, password);
+            initialValues.put(TOKEN, token);
             db.update(TABLE, initialValues, "ID=1", null);
         }catch (Exception e){
             e.printStackTrace();
@@ -91,7 +95,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
         Cursor cursor = db.rawQuery(selectQuery, null);
         UserModel result = null;
         if(cursor.moveToFirst()) {
-            result = new UserModel(cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            result = new UserModel(cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
         }
         cursor.close();
         db.close();

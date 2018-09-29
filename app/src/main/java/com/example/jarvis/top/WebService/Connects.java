@@ -14,7 +14,7 @@ import retrofit2.http.POST;
 public interface Connects {
     @FormUrlEncoded
     @POST("teste.php")
-    Call<LoginModel> loginPOST(@Field("user") String first, @Field("pass") String last);
+    Call<LoginModel> loginPOST(@Field("user") String first, @Field("pass") String last, @Field("token") String token);
 
     @FormUrlEncoded
     @POST("salvarcomentario.php")

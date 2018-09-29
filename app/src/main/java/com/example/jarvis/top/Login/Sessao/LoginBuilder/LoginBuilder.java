@@ -26,17 +26,17 @@ public class LoginBuilder {
         db = new DataBaseActions(activity);
     }
 
-    public void create(int id, String user, String user_name, String password){
-        db.setUpdate(id, user, user_name, password);
+    public void create(int id, String user, String user_name, String password, String token){
+        db.setUpdate(id, user, user_name, password, token);
     }
 
-    public void create(int id, String user, String user_name, String password, CreateLoginCallback callback){
-        db.setUpdate(id, user, user_name, password);
+    public void create(int id, String user, String user_name, String password, String token, CreateLoginCallback callback){
+        db.setUpdate(id, user, user_name, password, token);
         callback.CallBack(db.getData());
     }
 
     public void destroy(DestroyLoginCallback callback){
-        db.setUpdate(0,"","","");
+        db.setUpdate(0,"","","", "");
         callback.CallBack();
     }
 
@@ -50,6 +50,7 @@ public class LoginBuilder {
             }
         }else{
             db.setDefault();
+            callback.onIsNotLoged();
         }
     }
 }

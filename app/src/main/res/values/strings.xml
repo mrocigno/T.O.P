@@ -20,7 +20,7 @@
     <string name="MapsDebugApiKEY">AIzaSyCxxSLbv5xAcKEyDXinLQxG5lAaGOuXQ2o</string>
     <string name="MapsReleaseApiKEY">AIzaSyAAUzqYBHNx4uIEIeFqV6WcjHRdRzijhGk</string>
     <!-- Strings related to Settings -->
-
+    <string name="firebaseSHA1">51a8894ce118844d1dc49c526b6a473ffde5804e</string>
 
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
