@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -40,5 +41,16 @@ public class Utils {
 
     public static void hideKeyboard(Activity activity, View teste){
         ((InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(teste.getWindowToken(), 0);
+    }
+
+    public static void rotateRealTime(float toRotate, View view){
+        android.view.animation.RotateAnimation rotate = new android.view.animation.RotateAnimation(toRotate, toRotate,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        rotate.setDuration(100);
+        rotate.setFillAfter(true);
+
+        view.startAnimation(rotate);
     }
 }

@@ -22,6 +22,7 @@
 
     <color name="colorBlack">#000</color>
     <color name="colorBlackTranslucent">#47000000</color>
+    <color name="colorBlackDarkestTranslucent">#8d000000</color>
     <color name="colorLightRed">#ffa6a6</color>
     <color name="colorLightGreen">#83f583</color>
     <color name="colorClockYellow">#ffae00</color>

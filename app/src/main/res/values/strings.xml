@@ -17,6 +17,7 @@
     <string name="action_sair">Sair</string>
     <string name="chamados">Chamados</string>
     <string name="title_activity_configuracoes">Settings</string>
+    
     <string name="MapsDebugApiKEY">AIzaSyCxxSLbv5xAcKEyDXinLQxG5lAaGOuXQ2o</string>
     <string name="MapsReleaseApiKEY">AIzaSyAAUzqYBHNx4uIEIeFqV6WcjHRdRzijhGk</string>
     <!-- Strings related to Settings -->

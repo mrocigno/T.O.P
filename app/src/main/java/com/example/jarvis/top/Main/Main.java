@@ -1,14 +1,20 @@
 package com.example.jarvis.top.Main;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,43 +25,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Login.Login;
 import com.example.jarvis.top.Login.Sessao.Sessao;
-import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
 import com.example.jarvis.top.Main.Fragments.PageList;
 import com.example.jarvis.top.Main.Fragments.PageMap;
 import com.example.jarvis.top.Main.Menu.Configuracoes;
-import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
-import com.example.jarvis.top.Utils.LoadingSettings;
+import com.example.jarvis.top.Splash;
+import com.example.jarvis.top.Utils.SafeLog;
 import com.example.jarvis.top.Utils.Utils;
-import com.example.jarvis.top.WebService.Connects;
-import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
-import com.example.jarvis.top.WebService.Models.Chamados.ComentariosChamadosModel;
-import com.example.jarvis.top.WebService.Models.Chamados.ResultChamadosModel;
-import com.example.jarvis.top.WebService.Models.Default;
-import com.example.jarvis.top.WebService.Network;
 import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.OnDismissListener;
 import com.orhanobut.dialogplus.ViewHolder;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -68,6 +54,21 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     Activity activity;
     DrawerLayout drawer;
 
+    //Behavior
+    BehaviorItens behaviorItens;
+
+    public class BehaviorItens {
+        public CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
+        public ImageView imgCbr;
+        public FrameLayout frlBck;
+        public TextView txtTit;
+        public TextView txtCdo;
+        public TextView txtByy;
+        public TextView txtFor;
+        public TextView txtDtt;
+        public Button btnEnd;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,16 +79,59 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         initActions();
     }
 
-    protected void initVars(){
+    /*** Deve ser chamada depois da "initDefault"*/
+    protected void initVars() {
         activity = Main.this;
+
+        behaviorItens = new BehaviorItens();
+        behaviorItens.imgCbr = findViewById(R.id.mainBhv_imgCbr);
+        behaviorItens.frlBck = findViewById(R.id.main_frlBck);
+        behaviorItens.txtTit = findViewById(R.id.mainBhv_txtTit);
+        behaviorItens.txtCdo = findViewById(R.id.mainBhv_txtCdo);
+        behaviorItens.txtByy = findViewById(R.id.mainBhv_txtByy);
+        behaviorItens.txtFor = findViewById(R.id.mainBhv_txtFor);
+        behaviorItens.txtDtt = findViewById(R.id.mainBhv_txtDtt);
+        behaviorItens.btnEnd = findViewById(R.id.mainBhv_btnEnd);
+        ((PageList) mSectionsPagerAdapter.pages[0]).setBehaviorItens(behaviorItens);
     }
 
 
-    protected void initActions(){
-        new CustomBottomSheetBehavior().init(findViewById(R.id.main_behavior)).setHideable(false).setPeekHeight(40);
+    protected void initActions() {
+        behaviorItens.cbsb.init(findViewById(R.id.main_behavior)).setHideable(true).setPeekHeight(50).setState(CustomBottomSheetBehavior.CLOSED).setActions(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+                SafeLog.Logd(String.valueOf(i));
+                if (i != CustomBottomSheetBehavior.HIDING && i != CustomBottomSheetBehavior.CLOSED) {
+                    behaviorItens.frlBck.setVisibility(View.VISIBLE);
+                } else {
+                    behaviorItens.frlBck.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+                behaviorItens.frlBck.setAlpha(v);
+                float alphaImg = 1 - v;
+                behaviorItens.imgCbr.setAlpha(alphaImg);
+            }
+        });
+
+        behaviorItens.frlBck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.HIDING);
+            }
+        });
+
+        behaviorItens.imgCbr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
+            }
+        });
     }
 
-    protected void callFilter(){
+    protected void callFilter() {
         ViewHolder holder = new ViewHolder(R.layout.alert_filter);
         final DialogPlus alert = DialogPlus.newDialog(activity)
                 .setContentHolder(holder)
@@ -105,22 +149,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
     /***********************************************************************************************
      ****************************CRIADOS PELO SISTEMA***********************************************
      ***********************************************************************************************/
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    protected void initDefault(){
+    protected void initDefault() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -130,7 +165,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        ((TextView)navigationView.getHeaderView(0).findViewById(R.id.nav_txtAon)).setText("Olá, " + Sessao.getNome_completo());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_txtAon)).setText("Olá, " + Sessao.getNome_completo());
         navigationView.setNavigationItemSelectedListener(this);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -177,13 +212,13 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         if (id == R.id.action_atualizar) {
             pageList.refreshChamados(pageList.lista, pageList.layout);
             return true;
-        }else if (id == R.id.action_filtrar) {
+        } else if (id == R.id.action_filtrar) {
             callFilter();
             return true;
-        }else if (id == R.id.action_configuracoes) {
+        } else if (id == R.id.action_configuracoes) {
             Utils.initActivity(activity, new Intent(activity, Configuracoes.class), false);
             return true;
-        }else if (id == R.id.action_sair) {
+        } else if (id == R.id.action_sair) {
             Sessao.deslogar(activity, Login.class);
             return true;
         }
@@ -197,12 +232,12 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_itemCos: {
 
                 break;
             }
-            case R.id.nav_itemHco:{
+            case R.id.nav_itemHco: {
 
                 break;
             }
@@ -210,15 +245,15 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 Utils.initActivity(activity, new Intent(activity, Configuracoes.class), false);
                 break;
             }
-            case R.id.nav_itemCta:{
+            case R.id.nav_itemCta: {
 
                 break;
             }
-            case R.id.nav_itemSir:{
+            case R.id.nav_itemSir: {
                 Sessao.deslogar(activity, Login.class);
                 break;
             }
-            default:{
+            default: {
                 drawer.setSelected(false);
                 break;
             }

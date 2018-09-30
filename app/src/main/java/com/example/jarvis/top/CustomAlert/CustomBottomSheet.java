@@ -3,6 +3,7 @@ package com.example.jarvis.top.CustomAlert;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
@@ -29,6 +30,7 @@ public class CustomBottomSheet {
     public CustomBottomSheet(Activity activity) {
         localitens = new ArrayList<>();
         this.activity = activity;
+        dialog = new BottomSheetDialog(activity);
     }
 
     //Para criar o evento onClick de cada item
@@ -112,13 +114,18 @@ public class CustomBottomSheet {
         return this;
     }
 
+    public CustomBottomSheet onDismiss(DialogInterface.OnDismissListener dismissListener){
+        dialog.setOnDismissListener(dismissListener);
+        return this;
+    }
+
 
     public void show() {
         //Infla o layout criado para o BottomSheet (sheet_main)
         //Lá é onde está o listview onde será adicionado os itens
         @SuppressLint("InflateParams")
         View view = activity.getLayoutInflater().inflate(R.layout.bs_main, null);
-        dialog = new BottomSheetDialog(activity);
+
         dialog.setContentView(view);
 
         //Pega o ID do listview e seta o adapter a partir do ArrayList<ItensBottomView> passado como parâmetro

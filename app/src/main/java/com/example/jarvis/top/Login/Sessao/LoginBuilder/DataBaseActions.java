@@ -17,7 +17,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
     private static final String USER_NAME = "USER_NAME";
     private static final String PASSWORD = "PASSWORD";
     private static final String TOKEN = "TOKEN";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
 
     public DataBaseActions(Context context){
         super(context, NOME_BANCO,null, VERSAO);
@@ -54,7 +54,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
     private void ExecutarComandosSQL(SQLiteDatabase db, String sql){
 
         if (sql.trim().length()>0)
-        db.execSQL(sql);
+            db.execSQL(sql);
     }
 
     public long setDefault(){

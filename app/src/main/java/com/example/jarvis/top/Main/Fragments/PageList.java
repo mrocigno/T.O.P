@@ -2,14 +2,10 @@ package com.example.jarvis.top.Main.Fragments;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,7 +23,9 @@ import android.widget.Toast;
 
 import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
+import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
+import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
@@ -61,6 +59,7 @@ public class PageList extends Fragment {
     ListView lstCds;
     GridView grdLot;
     TextView noConection;
+    Main.BehaviorItens behaviorItens;
 
     CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
 
@@ -72,6 +71,13 @@ public class PageList extends Fragment {
         // Required empty public constructor
     }
 
+    public Main.BehaviorItens getBehaviorItens() {
+        return behaviorItens;
+    }
+
+    public void setBehaviorItens(Main.BehaviorItens behaviorItens) {
+        this.behaviorItens = behaviorItens;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,18 +90,6 @@ public class PageList extends Fragment {
         lstCds = createList();
         noConection = Network.createNoConection(activity);
 
-//        cbsb.init(view.findViewById(R.id.main_behavior)).setPeekHeight(100).setHideable(false).setActions(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View view, int i) {
-//                Log.d("TESTEE", "state: " + i);
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View view, float v) {
-//
-//            }
-//        });
-
         return view;
     }
 
@@ -107,7 +101,7 @@ public class PageList extends Fragment {
         frameLayout.removeView(noConection);
         final Retrofit retrofit = Network.teste();
         Connects con = retrofit.create(Connects.class);
-        con.getChamados().enqueue(new Callback<ChamadosModel>() {
+        con.getChamadosExternos(String.valueOf(Sessao.getId())).enqueue(new Callback<ChamadosModel>() {
             @Override
             public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
                 assert response.body() != null;
@@ -120,6 +114,7 @@ public class PageList extends Fragment {
             public void onFailure(Call<ChamadosModel> call, Throwable t) {
                 LoadingSettings.showProgressBar(false, activity.findViewById(R.id.header_pb));
                 frameLayout.addView(noConection);
+                Log.e("TESTEE", t.getMessage());
             }
         });
     }
@@ -135,21 +130,23 @@ public class PageList extends Fragment {
         grid.setNumColumns(2);
         grid.setBackground(activity.getDrawable(R.drawable.border_top_left));
         grid.setPadding(3,3,0,0);
-        grid.setOnItemLongClickListener(listaAction);
+        grid.setOnItemLongClickListener(listaLongClickAction);
+        grid.setOnItemClickListener(listaClickAction);
         grid.setNestedScrollingEnabled(true);
         return grid;
     }
 
     private ListView createList(){
         ListView listView = new ListView(activity);
-        listView.setOnItemLongClickListener(listaAction);
+        listView.setOnItemLongClickListener(listaLongClickAction);
+        listView.setOnItemClickListener(listaClickAction);
         listView.setBackground(activity.getDrawable(R.drawable.border_complete));
         listView.setPadding(3,3,3,3);
         listView.setNestedScrollingEnabled(true);
         return listView;
     }
 
-    AdapterView.OnItemLongClickListener listaAction = new AdapterView.OnItemLongClickListener() {
+    AdapterView.OnItemLongClickListener listaLongClickAction = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             CustomBottomSheet bottomSheet = new CustomBottomSheet(activity);
@@ -164,7 +161,7 @@ public class PageList extends Fragment {
             });
 
             if(resultChamadosModel.getTem_comentario() > 0){
-                bottomSheet.add(R.drawable.ic_chat_bubble_outline_black_24dp, "ler comentario", new CustomBottomSheet.onClickAction() {
+                bottomSheet.add(R.drawable.ic_chat_bubble_outline_black_24dp, "Ler comentario" + (resultChamadosModel.getTem_comentario() > 1? "s":""), new CustomBottomSheet.onClickAction() {
                     @Override
                     public void onItemSelected() {
                         //Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
@@ -188,8 +185,20 @@ public class PageList extends Fragment {
             });
 
             bottomSheet.show();
+            return true;
+        }
+    };
 
-            return false;
+    AdapterView.OnItemClickListener listaClickAction = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            ResultChamadosModel resultChamadosModel = list.get(position);
+            behaviorItens.txtTit.setText(resultChamadosModel.getTitulo());
+            behaviorItens.txtCdo.setText(resultChamadosModel.getConteudo());
+            behaviorItens.txtByy.setText(resultChamadosModel.getDe());
+            behaviorItens.txtFor.setText(resultChamadosModel.getPara());
+            behaviorItens.txtDtt.setText(resultChamadosModel.getPostadoEm());
+            behaviorItens.cbsb.setState(CustomBottomSheetBehavior.SHOWING);
         }
     };
 
@@ -284,7 +293,7 @@ public class PageList extends Fragment {
             @Override
             public void onResponse(Call<Default> call, Response<Default> response) {
                 Toast.makeText(activity, response.body().getMensagem(), Toast.LENGTH_LONG).show();
-                model.setTem_comentario(1);
+                model.setTem_comentario(model.getTem_comentario() + 1);
             }
 
             @Override

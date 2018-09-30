@@ -8,17 +8,33 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black" />
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="10dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/background_push_behavior"
-        android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
-       />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/background_push_behavior" />
+
+        <ImageView
+            android:id="@+id/mainBhv_imgCbr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_close_black_24dp"
+            android:tint="@color/colorAccent" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +44,7 @@
         android:paddingEnd="20dp">
 
         <TextView
+            android:id="@+id/mainBhv_txtTit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -37,8 +54,10 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/mainBhv_txtCdo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:text="disauhdijsaid sajd s djasp disa dasd sajdsadiosadis jad asdjsajd sad sad ioasd samdsa dhs admsa iodasdsad" />
 
@@ -87,6 +106,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/mainBhv_txtByy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="asdoiasjdiojasdasd asd asdk poaskd sd" />
@@ -101,6 +121,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/mainBhv_txtFor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="adsaodisadopiasdkasdoasd sad poaskd poas" />
@@ -109,12 +130,13 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/mainBhv_txtDtt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:textColor="@android:color/black"
-                    android:text="Postado em: 20/01/1999" />
+                    android:text="Postado em: 20/01/1999"
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
 
@@ -123,6 +145,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/mainBhv_btnEnd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

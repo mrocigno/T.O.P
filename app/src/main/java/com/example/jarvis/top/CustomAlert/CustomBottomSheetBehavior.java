@@ -7,6 +7,7 @@ import android.view.View;
 public class CustomBottomSheetBehavior {
     private BottomSheetBehavior bottomSheetBehavior;
 
+    public static int CLOSED = 5;
     public static int HIDING = 4;
     public static int SHOWING = 3;
 

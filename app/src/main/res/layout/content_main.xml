@@ -17,15 +17,5 @@
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <LinearLayout
-        android:id="@+id/main_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <include layout="@layout/behavior_chamado"/>
-
-    </LinearLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>

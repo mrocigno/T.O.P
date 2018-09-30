@@ -5,14 +5,64 @@ public class ResultChamadosModel {
     private String Status;
     private String Titulo;
     private String Conteudo;
+    private String De;
+    private String Para;
+    private String PostadoEm;
+    private String Latitude;
+    private String Longitude;
     private int tem_comentario;
 
-    public ResultChamadosModel(int ID, String status, String titulo, String conteudo, int tem_comentario) {
+    public ResultChamadosModel(int ID, String status, String titulo, String conteudo, String de, String para, String postadoEm, String latitude, String longitude, int tem_comentario) {
         this.ID = ID;
         Status = status;
         Titulo = titulo;
         Conteudo = conteudo;
+        De = de;
+        Para = para;
+        PostadoEm = postadoEm;
+        Latitude = latitude;
+        Longitude = longitude;
         this.tem_comentario = tem_comentario;
+    }
+
+    public String getDe() {
+        return De;
+    }
+
+    public void setDe(String de) {
+        De = de;
+    }
+
+    public String getPara() {
+        return Para;
+    }
+
+    public void setPara(String para) {
+        Para = para;
+    }
+
+    public String getPostadoEm() {
+        return PostadoEm;
+    }
+
+    public void setPostadoEm(String postadoEm) {
+        PostadoEm = postadoEm;
+    }
+
+    public String getLatitude() {
+        return Latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        Latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        Longitude = longitude;
     }
 
     public int getID() {

@@ -10,6 +10,8 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface Connects {
     @FormUrlEncoded
@@ -26,4 +28,7 @@ public interface Connects {
 
     @GET("chamados.php")
     Call<ChamadosModel> getChamados();
+
+    @GET("consultarchamadosexternos.php")
+    Call<ChamadosModel> getChamadosExternos(@Query("id") String ID);
 }
