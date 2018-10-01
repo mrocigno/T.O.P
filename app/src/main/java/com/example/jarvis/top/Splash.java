@@ -2,6 +2,7 @@ package com.example.jarvis.top;
 
 //Será que está funcionando agora?
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.example.jarvis.top.Login.Sessao.LoginBuilder.UserModel;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Login.TermosUso;
 import com.example.jarvis.top.Main.Main;
+import com.example.jarvis.top.Utils.NotificationUtil;
 import com.example.jarvis.top.Utils.SafeLog;
 import com.example.jarvis.top.Utils.Utils;
 import com.example.jarvis.top.WebService.Connects;
@@ -52,6 +54,8 @@ public class Splash extends AppCompatActivity {
         this.activity = Splash.this;
 
         Token = FirebaseInstanceId.getInstance().getToken();
+
+        initNotificationSttings();
 
         txtApre = findViewById(R.id.splash_txtApre);
         LoginBuilder lb = new LoginBuilder(activity);
@@ -152,6 +156,17 @@ public class Splash extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    protected void initNotificationSttings(){
+        NotificationUtil.createNotificationChannel(
+                activity,
+                getString(R.string.channel_chamados_id),
+                getString(R.string.channel_chamados_nome),
+                getString(R.string.channel_chamados_descricao),
+                NotificationManager.IMPORTANCE_MAX,
+                "1",
+                "Chamados");
     }
 
 }

@@ -2,9 +2,8 @@ package com.example.jarvis.top.Main.Fragments;
 
 
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +27,7 @@ import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
+import com.example.jarvis.top.Utils.NotificationUtil;
 import com.example.jarvis.top.Utils.Utils;
 import com.example.jarvis.top.WebService.Connects;
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;

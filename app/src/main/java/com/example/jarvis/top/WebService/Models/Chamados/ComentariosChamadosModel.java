@@ -38,38 +38,38 @@ public class ComentariosChamadosModel {
     }
 
     public class Resultado{
-        int id;
-        int id_chamado;
-        String comentario;
+        int ID;
+        int ID_Chamado;
+        String Comentario;
 
         public Resultado(int id, int id_chamado, String comentario) {
-            this.id = id;
-            this.id_chamado = id_chamado;
-            this.comentario = comentario;
+            this.ID = id;
+            this.ID_Chamado = id_chamado;
+            this.Comentario = comentario;
         }
 
         public int getId() {
-            return id;
+            return ID;
         }
 
         public void setId(int id) {
-            this.id = id;
+            this.ID = id;
         }
 
         public int getId_chamado() {
-            return id_chamado;
+            return ID_Chamado;
         }
 
         public void setId_chamado(int id_chamado) {
-            this.id_chamado = id_chamado;
+            this.ID_Chamado = id_chamado;
         }
 
         public String getComentario() {
-            return comentario;
+            return Comentario;
         }
 
         public void setComentario(String comentario) {
-            this.comentario = comentario;
+            this.Comentario = comentario;
         }
     }
 }

@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="@dimen/chamados_behavior">
 
         <FrameLayout
             android:layout_width="40dp"
@@ -45,10 +45,11 @@
 
         <TextView
             android:id="@+id/mainBhv_txtTit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Titulo"
+            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:text="disauhdijsaid sajd s djasp disa dasd sajdsadiosadis jad asdjsajd sad sad ioasd samdsa dhs admsa iodasdsad" />
+            android:text="Cotent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,7 +110,7 @@
                         android:id="@+id/mainBhv_txtByy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="asdoiasjdiojasdasd asd asdk poaskd sd" />
+                        android:text="De" />
 
 
                     <TextView
@@ -124,7 +125,7 @@
                         android:id="@+id/mainBhv_txtFor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="adsaodisadopiasdkasdoasd sad poaskd poas" />
+                        android:text="Para" />
 
 
                 </LinearLayout>

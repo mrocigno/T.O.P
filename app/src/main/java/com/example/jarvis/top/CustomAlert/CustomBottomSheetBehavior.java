@@ -20,7 +20,7 @@ public class CustomBottomSheetBehavior {
     }
 
     public CustomBottomSheetBehavior setPeekHeight(int peek){
-        bottomSheetBehavior.setPeekHeight(peek * 3);
+        bottomSheetBehavior.setPeekHeight(peek);
         return this;
     }
 

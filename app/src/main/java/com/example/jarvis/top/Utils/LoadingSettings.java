@@ -58,7 +58,7 @@ public class LoadingSettings {
         view.setEnabled(true);
     }
 
-    protected void defaultAction(final Activity activity, final int repeat, final int miliSeconds, final String defaultText){
+    private void defaultAction(final Activity activity, final int repeat, final int miliSeconds, final String defaultText){
         this.thread = new Thread(){
             @Override
             public void run() {

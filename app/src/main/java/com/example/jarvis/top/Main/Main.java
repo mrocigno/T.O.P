@@ -97,7 +97,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
 
     protected void initActions() {
-        behaviorItens.cbsb.init(findViewById(R.id.main_behavior)).setHideable(true).setPeekHeight(50).setState(CustomBottomSheetBehavior.CLOSED).setActions(new BottomSheetBehavior.BottomSheetCallback() {
+
+        behaviorItens.cbsb.init(findViewById(R.id.main_behavior)).setHideable(true).setPeekHeight((int) getResources().getDimension(R.dimen.chamados_behavior)).setState(CustomBottomSheetBehavior.CLOSED).setActions(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View view, int i) {
                 SafeLog.Logd(String.valueOf(i));
