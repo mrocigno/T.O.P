@@ -4,6 +4,7 @@
 
 package com.example.jarvis.top.Utils;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
@@ -39,6 +40,7 @@ public class NotificationUtil {
                 .setPriority(priority) //Maxima
                 .setAutoCancel(true)
                 .setGroup(group)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(content))
                 .setVibrate(new long[] {1000, 1000});
 
@@ -63,13 +65,18 @@ public class NotificationUtil {
     /**
      * To group the notifications
      */
-    private static void summaryNotification(Context contexto, String grupo, String canal, int smallIcon){
-        NotificationCompat.Builder summaryNotification = new NotificationCompat.Builder(contexto, canal)
-                .setAutoCancel(true)
+    private static void summaryNotification(Context context, String group, String canal, int smallIcon){
+        NotificationCompat.Builder summaryNotification = new NotificationCompat.Builder(context, canal)
                 .setSmallIcon(smallIcon)
-                .setGroup(grupo)
+                .setContentTitle("")
+                .setContentText("")
+                .setPriority(5) //Maxima
+                .setAutoCancel(true)
+                .setGroup(group)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(""))
+                .setVibrate(new long[] {1000, 1000})
                 .setGroupSummary(true);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(contexto);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(-1, summaryNotification.build());
     }
 

@@ -140,6 +140,9 @@ public class Splash extends AppCompatActivity {
                     });
                     break;
                 }
+                case "ID_Chamado":{
+                    Log.d("TESTEE", "TESTEEEEE");
+                }
             }
         }else{
             waitSplash(3000, new SplashCallBack() {
