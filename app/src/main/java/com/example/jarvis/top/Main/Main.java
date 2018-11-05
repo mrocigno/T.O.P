@@ -40,6 +40,7 @@ import com.example.jarvis.top.R;
 import com.example.jarvis.top.Splash;
 import com.example.jarvis.top.Utils.SafeLog;
 import com.example.jarvis.top.Utils.Utils;
+import com.google.android.gms.maps.model.LatLng;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
@@ -73,16 +74,16 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activity = Main.this;
 
         initDefault();
+
         initVars();
         initActions();
     }
 
     /*** Deve ser chamada depois da "initDefault"*/
     protected void initVars() {
-        activity = Main.this;
-
         behaviorItens = new BehaviorItens();
         behaviorItens.imgCbr = findViewById(R.id.mainBhv_imgCbr);
         behaviorItens.frlBck = findViewById(R.id.main_frlBck);
@@ -149,7 +150,6 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         alert.show();
     }
 
-
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     /***********************************************************************************************
@@ -184,6 +184,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
         pageList = (PageList) mSectionsPagerAdapter.pages[0];
         pageMap = (PageMap) mSectionsPagerAdapter.pages[1];
+
     }
 
     @Override

@@ -107,6 +107,18 @@ public class PageList extends Fragment {
                 list = response.body().getResultado();
                 AbsListView.class.cast(view).setAdapter(new AdapterGridChamados(activity, resource, response.body().getResultado()));
                 LoadingSettings.showProgressBar(false, activity.findViewById(R.id.header_pb));
+                if(activity.getIntent().hasExtra("ID_Chamado")){
+                    String ID_Chamado = activity.getIntent().getStringExtra("ID_Chamado");
+                    int position = 0;
+                    ArrayList<ResultChamadosModel> result = response.body().getResultado();
+                    for (int i = 0; i < result.size(); i++) {
+                        if(result.get(i).getID() == Integer.parseInt(ID_Chamado)){
+                            position = i;
+                        }
+                    }
+                    showChamado(position);
+                    activity.getIntent().removeExtra("ID_Chamado");
+                }
             }
 
             @Override
@@ -191,15 +203,19 @@ public class PageList extends Fragment {
     AdapterView.OnItemClickListener listaClickAction = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ResultChamadosModel resultChamadosModel = list.get(position);
-            behaviorItens.txtTit.setText(resultChamadosModel.getTitulo());
-            behaviorItens.txtCdo.setText(resultChamadosModel.getConteudo());
-            behaviorItens.txtByy.setText(resultChamadosModel.getDe());
-            behaviorItens.txtFor.setText(resultChamadosModel.getPara());
-            behaviorItens.txtDtt.setText(resultChamadosModel.getPostadoEm());
-            behaviorItens.cbsb.setState(CustomBottomSheetBehavior.SHOWING);
+            showChamado(position);
         }
     };
+
+    public void showChamado(int position){
+        ResultChamadosModel resultChamadosModel = list.get(position);
+        behaviorItens.txtTit.setText(resultChamadosModel.getTitulo());
+        behaviorItens.txtCdo.setText(resultChamadosModel.getConteudo());
+        behaviorItens.txtByy.setText(resultChamadosModel.getDe());
+        behaviorItens.txtFor.setText(resultChamadosModel.getPara());
+        behaviorItens.txtDtt.setText(resultChamadosModel.getPostadoEm());
+        behaviorItens.cbsb.setState(CustomBottomSheetBehavior.SHOWING);
+    }
 
     public void lerComentario(final int id){
         ViewHolder holder = new ViewHolder(R.layout.alert_ler_comentario);

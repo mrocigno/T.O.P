@@ -1,8 +1,10 @@
 package com.example.jarvis.top;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Utils.NotificationUtil;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -28,9 +30,13 @@ public class MyFirebaseService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Logd("Message data payload: " + remoteMessage.getData());
+
             Map<String, String> teste = remoteMessage.getData();
-            Intent intent = new Intent(this, Main.class);
+
+            Intent intent = new Intent(this, Splash.class);
+            intent.putExtra("action", "NovoChamado");
             intent.putExtra("ID_Chamado", teste.get("tag"));
+
             NotificationUtil.showNotification(
                     this,
                     teste.get("title"),

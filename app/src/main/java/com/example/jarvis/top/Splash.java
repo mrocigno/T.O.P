@@ -127,12 +127,16 @@ public class Splash extends AppCompatActivity {
 
     public void resumeSplashActions(){
         final Intent intent = getIntent();
+        if(!logado){
+            if(getIntent().hasExtra("action")){
+                getIntent().removeExtra("action");
+            }
+        }
         if(intent.hasExtra("action")){
-            //Executa algo, provavelmente de notificações
+            //Executa ações da intent
             switch(intent.getStringExtra("action")){
                 case "logar":{
-//                    txtApre.setVisibility(View.VISIBLE);
-                    waitSplash(3000, new SplashCallBack() {
+                    waitSplash(1000, new SplashCallBack() {
                         @Override
                         public void onEnd() {
                             Utils.initActivity(activity, new Intent(Splash.this, Main.class), true);
@@ -140,12 +144,21 @@ public class Splash extends AppCompatActivity {
                     });
                     break;
                 }
-                case "ID_Chamado":{
-                    Log.d("TESTEE", "TESTEEEEE");
+                case "NovoChamado": {
+                    txtApre.setText("Abrindo o chamado");
+                    waitSplash(1000, new SplashCallBack() {
+                        @Override
+                        public void onEnd() {
+                            Intent main = new Intent(activity, Main.class);
+                            main.putExtra("ID_Chamado", intent.getStringExtra("ID_Chamado"));
+                            Utils.initActivity(activity, main, true);
+                        }
+                    });
+                    break;
                 }
             }
         }else{
-            waitSplash(3000, new SplashCallBack() {
+            waitSplash(1000, new SplashCallBack() {
                 @Override
                 public void onEnd() {
                     //Chama a proxima activity
@@ -162,6 +175,7 @@ public class Splash extends AppCompatActivity {
     }
 
     protected void initNotificationSttings(){
+        //Só criará se for acima da versão 8 (Oreo)
         NotificationUtil.createNotificationChannel(
                 activity,
                 getString(R.string.channel_chamados_id),
@@ -171,5 +185,7 @@ public class Splash extends AppCompatActivity {
                 "1",
                 "Chamados");
     }
+
+
 
 }

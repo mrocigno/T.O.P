@@ -17,7 +17,7 @@ public class DataBaseActions extends SQLiteOpenHelper{
     private static final String USER_NAME = "USER_NAME";
     private static final String PASSWORD = "PASSWORD";
     private static final String TOKEN = "TOKEN";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
 
     public DataBaseActions(Context context){
         super(context, NOME_BANCO,null, VERSAO);
