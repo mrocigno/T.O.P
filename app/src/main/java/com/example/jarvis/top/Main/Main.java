@@ -68,6 +68,8 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         public TextView txtFor;
         public TextView txtDtt;
         public Button btnEnd;
+        public ImageView behavior_imgStatus;
+        public TextView behavior_txtStatus;
     }
 
     @Override
@@ -93,7 +95,11 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         behaviorItens.txtFor = findViewById(R.id.mainBhv_txtFor);
         behaviorItens.txtDtt = findViewById(R.id.mainBhv_txtDtt);
         behaviorItens.btnEnd = findViewById(R.id.mainBhv_btnEnd);
+        behaviorItens.behavior_imgStatus = findViewById(R.id.behavior_imgStatus);
+        behaviorItens.behavior_txtStatus = findViewById(R.id.behavior_txtStatus);
+
         ((PageList) mSectionsPagerAdapter.pages[0]).setBehaviorItens(behaviorItens);
+        ((PageMap)  mSectionsPagerAdapter.pages[1]).setBehaviorItens(behaviorItens);
     }
 
 

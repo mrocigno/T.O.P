@@ -1,12 +1,18 @@
 package com.example.jarvis.top.Utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.util.ArrayList;
 
 public class Utils {
     public static boolean verifieEmail(EditText etField, String msgErro){
@@ -52,5 +58,29 @@ public class Utils {
         rotate.setFillAfter(true);
 
         view.startAnimation(rotate);
+    }
+
+    public static boolean verifiePermissions(Activity activity) {
+        String[] permisions = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        };
+
+        ArrayList<String> denied = new ArrayList<>();
+
+        for (String permision : permisions) {
+            if (ContextCompat.checkSelfPermission(activity, permision) == PackageManager.PERMISSION_DENIED) {
+                denied.add(permision);
+            }
+        }
+
+        if (denied.size() > 0) {
+            String[] permisionsDenied = new String[denied.size()];
+            permisionsDenied = denied.toArray(permisionsDenied);
+
+            ActivityCompat.requestPermissions(activity, permisionsDenied, 0);
+            return false;
+        }
+        return true;
     }
 }

@@ -136,7 +136,7 @@ public class Splash extends AppCompatActivity {
             //Executa ações da intent
             switch(intent.getStringExtra("action")){
                 case "logar":{
-                    waitSplash(1000, new SplashCallBack() {
+                    waitSplash(500, new SplashCallBack() {
                         @Override
                         public void onEnd() {
                             Utils.initActivity(activity, new Intent(Splash.this, Main.class), true);
@@ -146,7 +146,7 @@ public class Splash extends AppCompatActivity {
                 }
                 case "NovoChamado": {
                     txtApre.setText("Abrindo o chamado");
-                    waitSplash(1000, new SplashCallBack() {
+                    waitSplash(500, new SplashCallBack() {
                         @Override
                         public void onEnd() {
                             Intent main = new Intent(activity, Main.class);
@@ -158,7 +158,7 @@ public class Splash extends AppCompatActivity {
                 }
             }
         }else{
-            waitSplash(1000, new SplashCallBack() {
+            waitSplash(500, new SplashCallBack() {
                 @Override
                 public void onEnd() {
                     //Chama a proxima activity

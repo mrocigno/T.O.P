@@ -23,11 +23,13 @@ import com.example.jarvis.top.CustomAlert.CustomBottomSheet;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
+import com.example.jarvis.top.Main.Chamado.Chamado;
 import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
 import com.example.jarvis.top.Utils.NotificationUtil;
+import com.example.jarvis.top.Utils.StatusUtil;
 import com.example.jarvis.top.Utils.Utils;
 import com.example.jarvis.top.WebService.Connects;
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
@@ -60,7 +62,7 @@ public class PageList extends Fragment {
     TextView noConection;
     Main.BehaviorItens behaviorItens;
 
-    CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
+//    CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
 
     //Padrão será a lista
     public View lista;
@@ -208,12 +210,29 @@ public class PageList extends Fragment {
     };
 
     public void showChamado(int position){
-        ResultChamadosModel resultChamadosModel = list.get(position);
+        final ResultChamadosModel resultChamadosModel = list.get(position);
         behaviorItens.txtTit.setText(resultChamadosModel.getTitulo());
         behaviorItens.txtCdo.setText(resultChamadosModel.getConteudo());
         behaviorItens.txtByy.setText(resultChamadosModel.getDe());
         behaviorItens.txtFor.setText(resultChamadosModel.getPara());
         behaviorItens.txtDtt.setText(resultChamadosModel.getPostadoEm());
+
+        StatusUtil status = new StatusUtil(Integer.parseInt(resultChamadosModel.getStatus()));
+        behaviorItens.behavior_imgStatus.setImageDrawable(activity.getDrawable(status.getResourceImage()));
+        behaviorItens.behavior_imgStatus.setColorFilter(activity.getColor(status.getResourceColor()));
+        behaviorItens.behavior_txtStatus.setText(status.getMensagem());
+        behaviorItens.behavior_txtStatus.setTextColor(activity.getColor(status.getResourceColor()));
+
+        behaviorItens.btnEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, Chamado.class);
+                intent.putExtra("item", resultChamadosModel);
+                startActivity(intent);
+                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
+            }
+        });
+
         behaviorItens.cbsb.setState(CustomBottomSheetBehavior.SHOWING);
     }
 

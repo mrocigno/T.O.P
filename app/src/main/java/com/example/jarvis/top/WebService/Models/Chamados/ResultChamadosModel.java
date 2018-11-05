@@ -1,6 +1,8 @@
 package com.example.jarvis.top.WebService.Models.Chamados;
 
-public class ResultChamadosModel {
+import java.io.Serializable;
+
+public class ResultChamadosModel implements Serializable {
     private int ID;
     private String Status;
     private String Titulo;

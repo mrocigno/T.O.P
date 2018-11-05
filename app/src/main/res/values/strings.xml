@@ -31,5 +31,6 @@
 
     <!--Grupos de notificações-->
     <string name="group_chamados">Chamados</string>
+    <string name="title_activity_delete">delete</string>
 
 </resources>

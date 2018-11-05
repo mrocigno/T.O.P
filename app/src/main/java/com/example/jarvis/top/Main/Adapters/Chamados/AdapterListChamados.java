@@ -36,7 +36,7 @@ public class AdapterListChamados extends ArrayAdapter<ResultChamadosModel> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.adapter_chamados_main, parent, false);
             holder.adapter_conteudo = convertView.findViewById(R.id.adapter_conteudo);
-            holder.adapter_status = convertView.findViewById(R.id.adapter_status);
+            holder.adapter_status = convertView.findViewById(R.id.adapter_imgStatus);
             holder.adapter_titulo = convertView.findViewById(R.id.adapter_titulo);
 
             convertView.setTag(holder);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="10dp">
@@ -8,28 +8,31 @@
     <LinearLayout
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical"
         android:layout_gravity="center_vertical"
-        android:gravity="center">
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:maxHeight="200dp"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/adapter_status"
+            android:id="@+id/adapter_imgStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_access_time_yellow_24dp"/>
+            android:src="@drawable/ic_access_time_yellow_24dp" />
 
         <TextView
+            android:id="@+id/adapter_txtStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorClockYellow"
-            android:text="Enviando"/>
+            android:text="Enviando"
+            android:textColor="@color/colorClockYellow" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:maxHeight="200dp"
         android:orientation="vertical">
 
         <TextView
@@ -37,15 +40,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TITULO"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/adapter_conteudo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lines="2"
             android:layout_marginTop="5dp"
-            android:text="conteudo"/>
+            android:text="conteudo" />
 
     </LinearLayout>
 

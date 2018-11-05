@@ -14,7 +14,7 @@ public class StatusUtil {
             case 0:{
                 resourceImage = R.drawable.ic_access_time_black_24dp;
                 resourceColor = R.color.colorClockYellow;
-                mensagem = "Pendente";
+                mensagem = "Pendenste";
                 break;
             }
             case 1:{
