@@ -219,6 +219,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_atualizar) {
             pageList.refreshChamados(pageList.lista, pageList.layout);
+            pageMap.refreshPins();
             return true;
         } else if (id == R.id.action_filtrar) {
             callFilter();

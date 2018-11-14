@@ -1,77 +1,67 @@
 package com.example.jarvis.top.WebService.Models.Login;
 
 public class ResultLoginModel {
-    private int ID;
-    private String Nick;
-    private String Senha;
-    private String Email;
-    private String Nome_Completo;
-    private String Token;
-    private int Tipo_User;
+    private int id_usuario;
+    private String email;
+    private String nome_completo;
+    private String token;
+    private String senha;
+    private int id_tipo_usuario;
 
-    public ResultLoginModel(int ID, String nick, String senha, String email, String nome_Completo, String token, int tipo_User) {
-        this.ID = ID;
-        Nick = nick;
-        Senha = senha;
-        Email = email;
-        Nome_Completo = nome_Completo;
-        Token = token;
-        Tipo_User = tipo_User;
-    }
-
-    public String getToken() {
-        return Token;
-    }
-
-    public void setToken(String token) {
-        Token = token;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
-    public String getNick() {
-        return Nick;
-    }
-
-    public void setNick(String nick) {
-        Nick = nick;
+    public ResultLoginModel(int id_usuario, String email, String nome_completo, String token, String senha, int id_tipo_usuario) {
+        this.id_usuario = id_usuario;
+        this.email = email;
+        this.nome_completo = nome_completo;
+        this.token = token;
+        this.id_tipo_usuario = id_tipo_usuario;
+        this.senha = senha;
     }
 
     public String getSenha() {
-        return Senha;
+        return senha;
     }
 
     public void setSenha(String senha) {
-        Senha = senha;
+        this.senha = senha;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public String getNome_Completo() {
-        return Nome_Completo;
+    public String getNome_completo() {
+        return nome_completo;
     }
 
-    public void setNome_Completo(String nome_Completo) {
-        Nome_Completo = nome_Completo;
+    public void setNome_completo(String nome_completo) {
+        this.nome_completo = nome_completo;
     }
 
-    public int getTipo_User() {
-        return Tipo_User;
+    public String getToken() {
+        return token;
     }
 
-    public void setTipo_User(int tipo_User) {
-        Tipo_User = tipo_User;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getId_tipo_usuario() {
+        return id_tipo_usuario;
+    }
+
+    public void setId_tipo_usuario(int id_tipo_usuario) {
+        this.id_tipo_usuario = id_tipo_usuario;
     }
 }

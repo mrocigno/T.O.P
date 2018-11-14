@@ -39,6 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -139,6 +140,7 @@
                     android:paddingBottom="5dp">
 
                     <EditText
+                        android:id="@+id/chamados_edtDetalhes"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
@@ -158,6 +160,7 @@
                     app:add_image="@drawable/ic_photo"
                     app:background_color="?colorAccent"
                     app:image_color="@android:color/white"
+                    app:limit="3"
                     app:title="Adicione fotos:" />
 
             </LinearLayout>
@@ -169,6 +172,7 @@
     <include layout="@layout/header" />
 
     <Button
+        android:id="@+id/chamados_btnFinalizar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"

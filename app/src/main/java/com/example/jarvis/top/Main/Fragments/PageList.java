@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -226,10 +227,25 @@ public class PageList extends Fragment {
         behaviorItens.btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, Chamado.class);
-                intent.putExtra("item", resultChamadosModel);
-                startActivity(intent);
-                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
+                final LoadingSettings ls = new LoadingSettings(behaviorItens.btnEnd, Button.class);
+                ls.txtLoading(activity, 500, 3, "Carregando", false);
+                ls.threadStart();
+                Connects connects = Network.teste().create(Connects.class);
+                connects.setStatus(String.valueOf(resultChamadosModel.getID()), "1").enqueue(new Callback<ChamadosModel>() {
+                    @Override
+                    public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
+                        ls.threadClose();
+                        Intent intent = new Intent(activity, Chamado.class);
+                        intent.putExtra("item", resultChamadosModel);
+                        startActivity(intent);
+                        behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ChamadosModel> call, Throwable t) {
+                        ls.threadClose();
+                    }
+                });
             }
         });
 

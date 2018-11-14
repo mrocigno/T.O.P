@@ -102,13 +102,13 @@ public class Splash extends AppCompatActivity {
                 LoginModel loginModel = response.body();
                 assert loginModel != null;
                 if(loginModel.getStatus() == 1){
-                    Sessao.setId(loginModel.getResultado().getID());
+                    Sessao.setId(loginModel.getResultado().getId_usuario());
                     Sessao.setToken(loginModel.getResultado().getToken());
-                    Sessao.setNick(loginModel.getResultado().getNick());
-                    Sessao.setNome_completo(loginModel.getResultado().getNome_Completo());
+                    Sessao.setNick(loginModel.getResultado().getNome_completo());
+                    Sessao.setNome_completo(loginModel.getResultado().getNome_completo());
 
                     txtApre.setVisibility(View.VISIBLE);
-                    txtApre.setText("Olá, " + loginModel.getResultado().getNome_Completo());
+                    txtApre.setText("Olá, " + loginModel.getResultado().getNome_completo());
                     logado = true;
                     resumeSplashActions();
                 }else{

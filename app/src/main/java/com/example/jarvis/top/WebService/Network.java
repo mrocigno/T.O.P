@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Network {
-    private static String baseURL = "http://listmobile.esy.es/";
+    private static String baseURL = "http://tarefas-operacionais.esy.es/ws/";
 
     public static Retrofit teste(){
         Retrofit retrofit = new Retrofit.Builder()

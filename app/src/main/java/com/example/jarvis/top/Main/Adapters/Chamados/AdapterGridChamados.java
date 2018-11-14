@@ -76,6 +76,7 @@ public class AdapterGridChamados extends BaseAdapter {
             holder = (ItensHolder) convertView.getTag();
         }
 
+
         StatusUtil status = new StatusUtil(Integer.parseInt(modelChamados.getStatus()));
 
 //        switch (resource){

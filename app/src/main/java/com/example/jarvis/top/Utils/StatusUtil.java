@@ -11,22 +11,28 @@ public class StatusUtil {
 
     public StatusUtil(int codeStatus) {
         switch (codeStatus){
-            case 0:{
+            case 1:{
                 resourceImage = R.drawable.ic_access_time_black_24dp;
                 resourceColor = R.color.colorClockYellow;
-                mensagem = "Pendenste";
+                mensagem = "Em andamento";
                 break;
             }
-            case 1:{
+            case 2:{
                 resourceImage = R.drawable.ic_done_black_24dp;
                 resourceColor = R.color.colorCheckGreen;
                 mensagem = "Concluido";
                 break;
             }
-            case 2:{
+            case 3:{
                 resourceImage = R.drawable.ic_close_black_24dp;
                 resourceColor = R.color.colorRemoveRed;
                 mensagem = "Cancelado";
+                break;
+            }
+            case 4:{
+                resourceImage = R.drawable.ic_access_time_black_24dp;
+                resourceColor = R.color.colorClockYellow;
+                mensagem = "Pendente";
                 break;
             }
         }

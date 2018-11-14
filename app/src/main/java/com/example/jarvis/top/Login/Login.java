@@ -124,7 +124,7 @@ public class Login extends AppCompatActivity {
                 assert loginModel != null;
                 if(loginModel.getStatus() == 1){
                     LoginBuilder lb = new LoginBuilder(activity);
-                    lb.create(response.body().getResultado().getID(), response.body().getResultado().getNick(), response.body().getResultado().getNome_Completo(), response.body().getResultado().getSenha(), response.body().getResultado().getToken(), new LoginBuilder.CreateLoginCallback() {
+                    lb.create(response.body().getResultado().getId_usuario(), response.body().getResultado().getEmail(), response.body().getResultado().getNome_completo(), response.body().getResultado().getSenha(), response.body().getResultado().getToken(), new LoginBuilder.CreateLoginCallback() {
                         @Override
                         public void CallBack(UserModel userModel) {
                             Intent i = new Intent(activity, Splash.class);
