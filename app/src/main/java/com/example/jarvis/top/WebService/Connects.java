@@ -1,5 +1,6 @@
 package com.example.jarvis.top.WebService;
 
+import com.example.jarvis.top.WebService.Models.Chamados.ChamadoDetalhes;
 import com.example.jarvis.top.WebService.Models.Chamados.ChamadosModel;
 import com.example.jarvis.top.WebService.Models.Chamados.ComentariosChamadosModel;
 import com.example.jarvis.top.WebService.Models.Default;
@@ -34,7 +35,14 @@ public interface Connects {
     Call<ChamadosModel> getChamados();
 
     @GET("getChamados.php")
-    Call<ChamadosModel> getChamadosExternos(@Query("id") String ID);
+    Call<ChamadosModel> getChamadosExternos(@Query("id") String ID, @Query("filtro_geral") String geral, @Query("dt_ini") String dtIni, @Query("dt_fni") String dtfni);
+
+    @GET("getHistorico.php")
+    Call<ChamadosModel> getHistorico(@Query("id") String ID);
+
+    @FormUrlEncoded
+    @POST("getDetalhes.php")
+    Call<ChamadoDetalhes> getDetalhes(@Field("id") String id);
 
     @Multipart
     @POST("wsResult.php")

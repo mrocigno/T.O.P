@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Chamado.Chamado;
+import com.example.jarvis.top.Main.Chamado.DetalhesChamado;
 import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Utils.LoadingSettings;
@@ -90,7 +91,7 @@ public class PageMap extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 String id = marker.getSnippet().split("\n\n")[1];
                 for (int i = 0; i < list.size(); i++) {
-                    if(String.valueOf(list.get(i).getID()).equals(id)){
+                    if (String.valueOf(list.get(i).getID()).equals(id)) {
                         showChamado(i);
                     }
                 }
@@ -119,10 +120,13 @@ public class PageMap extends Fragment implements OnMapReadyCallback {
     }
 
     public void refreshPins() {
+        if (mapIsReady) {
+            mMap.clear();
+        }
         LoadingSettings.showProgressBar(true, activity.findViewById(R.id.header_pb));
         final Retrofit retrofit = Network.teste();
         Connects con = retrofit.create(Connects.class);
-        con.getChamadosExternos(String.valueOf(Sessao.getId())).enqueue(new Callback<ChamadosModel>() {
+        con.getChamadosExternos(String.valueOf(Sessao.getId()), Main.filtro_geral, Main.f_dt_ini, Main.f_dt_fni).enqueue(new Callback<ChamadosModel>() {
             @Override
             public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
                 assert response.body() != null;
@@ -131,7 +135,8 @@ public class PageMap extends Fragment implements OnMapReadyCallback {
                 for (int i = 0; i < list.size(); i++) {
                     try {
                         placeApin(new LatLng(Double.parseDouble(list.get(i).getLatitude()), Double.parseDouble(list.get(i).getLongitude())), list.get(i).getTitulo(), list.get(i).getConteudo() + "\n\n" + list.get(i).getID());
-                    } catch (Exception ignore) {}
+                    } catch (Exception ignore) {
+                    }
                 }
             }
 
@@ -143,7 +148,7 @@ public class PageMap extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    public void showChamado(int position){
+    public void showChamado(int position) {
         final ResultChamadosModel resultChamadosModel = list.get(position);
         behaviorItens.txtTit.setText(resultChamadosModel.getTitulo());
         behaviorItens.txtCdo.setText(resultChamadosModel.getConteudo());
@@ -167,12 +172,22 @@ public class PageMap extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        behaviorItens.mainBhv_imgMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, DetalhesChamado.class);
+                intent.putExtra("id_chamado", String.valueOf(resultChamadosModel.getID()));
+                startActivity(intent);
+                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
+            }
+        });
+
         behaviorItens.cbsb.setState(CustomBottomSheetBehavior.SHOWING);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        refreshPins();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        refreshPins();
+//    }
 }

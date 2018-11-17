@@ -38,8 +38,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_gravity="center"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -178,7 +178,7 @@
         android:layout_gravity="bottom"
         android:background="@drawable/background_selectable"
         android:text="finalizar chamado"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
 </android.support.design.widget.CoordinatorLayout>

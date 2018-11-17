@@ -16,10 +16,10 @@
             android:id="@+id/nav_itemOes"
             android:icon="@drawable/ic_menu_manage"
             android:title="Opções" />
-        <item
-            android:id="@+id/nav_itemCta"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="Conta" />
+        <!--<item-->
+            <!--android:id="@+id/nav_itemCta"-->
+            <!--android:icon="@drawable/ic_account_circle_black_24dp"-->
+            <!--android:title="Conta" />-->
         <item
             android:id="@+id/nav_itemSir"
             android:icon="@drawable/ic_exit_to_app_black_24dp"

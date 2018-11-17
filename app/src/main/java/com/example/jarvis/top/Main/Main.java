@@ -1,6 +1,8 @@
 package com.example.jarvis.top.Main;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -26,6 +28,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +40,7 @@ import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Fragments.PageList;
 import com.example.jarvis.top.Main.Fragments.PageMap;
 import com.example.jarvis.top.Main.Menu.Configuracoes;
+import com.example.jarvis.top.Main.Menu.Historico;
 import com.example.jarvis.top.R;
 import com.example.jarvis.top.Splash;
 import com.example.jarvis.top.Utils.SafeLog;
@@ -43,6 +48,10 @@ import com.example.jarvis.top.Utils.Utils;
 import com.google.android.gms.maps.model.LatLng;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class Main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,6 +63,10 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
 
     Activity activity;
     DrawerLayout drawer;
+
+    public static String filtro_geral = "";
+    public static String f_dt_ini = "";
+    public static String f_dt_fni = "";
 
     //Behavior
     BehaviorItens behaviorItens;
@@ -69,6 +82,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         public TextView txtDtt;
         public Button btnEnd;
         public ImageView behavior_imgStatus;
+        public ImageView mainBhv_imgMais;
         public TextView behavior_txtStatus;
     }
 
@@ -96,6 +110,7 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
         behaviorItens.txtDtt = findViewById(R.id.mainBhv_txtDtt);
         behaviorItens.btnEnd = findViewById(R.id.mainBhv_btnEnd);
         behaviorItens.behavior_imgStatus = findViewById(R.id.behavior_imgStatus);
+        behaviorItens.mainBhv_imgMais = findViewById(R.id.mainBhv_imgMais);
         behaviorItens.behavior_txtStatus = findViewById(R.id.behavior_txtStatus);
 
         ((PageList) mSectionsPagerAdapter.pages[0]).setBehaviorItens(behaviorItens);
@@ -140,15 +155,90 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
     }
 
     protected void callFilter() {
-        ViewHolder holder = new ViewHolder(R.layout.alert_filter);
+        final ViewHolder holder = new ViewHolder(R.layout.alert_filter);
         final DialogPlus alert = DialogPlus.newDialog(activity)
                 .setContentHolder(holder)
                 .setGravity(Gravity.TOP)
                 .create();
 
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final EditText filter_edtSom = holder.getInflatedView().findViewById(R.id.filter_edtSom);
+        final EditText dt_ini = holder.getInflatedView().findViewById(R.id.filter_edtBy);
+        final EditText dt_fni = holder.getInflatedView().findViewById(R.id.filter_edtTo);
+        final Button filter_btnCan = holder.getInflatedView().findViewById(R.id.filter_btnCan);
+
+        filter_edtSom.setText(filtro_geral);
+        dt_ini.setText(f_dt_ini);
+        dt_fni.setText(f_dt_fni);
+
+        if(!filtro_geral.equals("") || !f_dt_fni.equals("") || !f_dt_ini.equals("")){
+            filter_btnCan.setVisibility(View.VISIBLE);
+        }
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "yyyy-MM-dd";
+
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+                if((int) view.getTag() == 1){
+                    dt_ini.setText(sdf.format(myCalendar.getTime()));
+                }else{
+                    dt_fni.setText(sdf.format(myCalendar.getTime()));
+                }
+            }
+        };
+
+        dt_ini.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dataPicker = new DatePickerDialog(Main.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                dataPicker.getDatePicker().setTag(1);
+                dataPicker.show();
+            }
+        });
+
+        dt_fni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dataPicker = new DatePickerDialog(Main.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH));
+                dataPicker.getDatePicker().setTag(2);
+                dataPicker.show();
+            }
+        });
+
+        filter_btnCan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                f_dt_fni = ""; f_dt_ini = ""; filtro_geral = "";
+
+                pageList.refreshChamados(pageList.lista, pageList.layout);
+                pageMap.refreshPins();
+
+                alert.dismiss();
+            }
+        });
+
         (holder.getInflatedView().findViewById(R.id.filter_btnSch)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                filtro_geral = filter_edtSom.getText().toString().trim();
+                f_dt_ini = dt_ini.getText().toString().trim();
+                f_dt_fni = dt_fni.getText().toString().trim();
+
+                pageList.refreshChamados(pageList.lista, pageList.layout);
+                pageMap.refreshPins();
+
                 alert.dismiss();
             }
         });
@@ -247,17 +337,17 @@ public class Main extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
             }
             case R.id.nav_itemHco: {
-
+                Utils.initActivity(activity, new Intent(activity, Historico.class), false);
                 break;
             }
             case R.id.nav_itemOes: {
                 Utils.initActivity(activity, new Intent(activity, Configuracoes.class), false);
                 break;
             }
-            case R.id.nav_itemCta: {
-
-                break;
-            }
+//            case R.id.nav_itemCta: {
+//
+//                break;
+//            }
             case R.id.nav_itemSir: {
                 Sessao.deslogar(activity, Login.class);
                 break;

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.example.jarvis.top.CustomAlert.CustomBottomSheetBehavior;
 import com.example.jarvis.top.Login.Sessao.Sessao;
 import com.example.jarvis.top.Main.Adapters.Chamados.AdapterGridChamados;
 import com.example.jarvis.top.Main.Chamado.Chamado;
+import com.example.jarvis.top.Main.Chamado.DetalhesChamado;
 import com.example.jarvis.top.Main.Main;
 import com.example.jarvis.top.Main.Menu.DataBaseConfig;
 import com.example.jarvis.top.R;
@@ -63,6 +65,8 @@ public class PageList extends Fragment {
     TextView noConection;
     Main.BehaviorItens behaviorItens;
 
+    SwipeRefreshLayout pageList_swipe;
+
 //    CustomBottomSheetBehavior cbsb = new CustomBottomSheetBehavior();
 
     //Padrão será a lista
@@ -87,6 +91,16 @@ public class PageList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_page_list, container, false);
         this.activity = getActivity();
         frameLayout = view.findViewById(R.id.pageList_frame);
+        pageList_swipe = view.findViewById(R.id.pageList_swipe);
+
+        pageList_swipe.setColorSchemeColors(activity.getColor(R.color.colorAccent), activity.getColor(R.color.colorPrimaryDark), activity.getColor(R.color.colorPrimary));
+        pageList_swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshChamados(lista, layout);
+
+            }
+        });
 
         grdLot = createGrid();
         lstCds = createList();
@@ -98,18 +112,19 @@ public class PageList extends Fragment {
 
     public void refreshChamados(final View view, final int resource){
         LoadingSettings.showProgressBar(true, activity.findViewById(R.id.header_pb));
-        AbsListView.class.cast(view).setAdapter(null);
 
         frameLayout.removeView(noConection);
         final Retrofit retrofit = Network.teste();
         Connects con = retrofit.create(Connects.class);
-        con.getChamadosExternos(String.valueOf(Sessao.getId())).enqueue(new Callback<ChamadosModel>() {
+        con.getChamadosExternos(String.valueOf(Sessao.getId()),  Main.filtro_geral,Main.f_dt_ini,Main.f_dt_fni).enqueue(new Callback<ChamadosModel>() {
             @Override
             public void onResponse(Call<ChamadosModel> call, Response<ChamadosModel> response) {
+                AbsListView.class.cast(view).setAdapter(null);
                 assert response.body() != null;
                 list = response.body().getResultado();
                 AbsListView.class.cast(view).setAdapter(new AdapterGridChamados(activity, resource, response.body().getResultado()));
                 LoadingSettings.showProgressBar(false, activity.findViewById(R.id.header_pb));
+                pageList_swipe.setRefreshing(false);
                 if(activity.getIntent().hasExtra("ID_Chamado")){
                     String ID_Chamado = activity.getIntent().getStringExtra("ID_Chamado");
                     int position = 0;
@@ -126,7 +141,9 @@ public class PageList extends Fragment {
 
             @Override
             public void onFailure(Call<ChamadosModel> call, Throwable t) {
+                AbsListView.class.cast(view).setAdapter(null);
                 LoadingSettings.showProgressBar(false, activity.findViewById(R.id.header_pb));
+                pageList_swipe.setRefreshing(false);
                 frameLayout.addView(noConection);
                 Log.e("TESTEE", t.getMessage());
             }
@@ -170,7 +187,9 @@ public class PageList extends Fragment {
             bottomSheet.add(R.drawable.ic_add_black_24dp, "Mais detalhes", new CustomBottomSheet.onClickAction() {
                 @Override
                 public void onItemSelected() {
-                    Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(activity, DetalhesChamado.class);
+                    intent.putExtra("id_chamado", String.valueOf(resultChamadosModel.getID()));
+                    startActivity(intent);
                 }
             });
 
@@ -191,12 +210,12 @@ public class PageList extends Fragment {
                     addComentario(resultChamadosModel);
                 }
             });
-            bottomSheet.add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
-                @Override
-                public void onItemSelected() {
-                    Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
-                }
-            });
+//            bottomSheet.add(R.drawable.ic_delete_forever_black_24dp, "Apagar chamado", new CustomBottomSheet.onClickAction() {
+//                @Override
+//                public void onItemSelected() {
+//                    Toast.makeText(activity, resultChamadosModel.getStatus(), Toast.LENGTH_LONG).show();
+//                }
+//            });
 
             bottomSheet.show();
             return true;
@@ -246,6 +265,16 @@ public class PageList extends Fragment {
                         ls.threadClose();
                     }
                 });
+            }
+        });
+
+        behaviorItens.mainBhv_imgMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, DetalhesChamado.class);
+                intent.putExtra("id_chamado", String.valueOf(resultChamadosModel.getID()));
+                startActivity(intent);
+                behaviorItens.cbsb.setState(CustomBottomSheetBehavior.CLOSED);
             }
         });
 
